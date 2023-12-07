@@ -1,0 +1,19 @@
+/* css styles */
+
+h1 {
+    font-family: Poppins, sans-serif;
+    color: #004961;
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+h3 {
+    font-family: Poppins, sans-serif;
+    color: #004960;
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-weight: 500;
+    line-height: 1.2;
+}

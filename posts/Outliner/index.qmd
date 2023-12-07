@@ -1,0 +1,341 @@
+---
+title: "Anomaly/Outlier detection"
+date: "2023-12-05"
+author: Swethaa
+image: "Image.png"
+---  
+```{=html}
+<h1 style='cadetblue'>Outlier Detection</h1>
+    <p>An outlier is an object that deviates significantly from the rest of the objects. They can be caused by measurement or execution error. The analysis of outlier data is referred to as outlier analysis or outlier mining.</p>
+    <p>Outlier detection, also known as anomaly detection, is a technique in machine learning that focuses on identifying data points that deviate significantly from the majority of the dataset. Outliers are observations that exhibit unusual behavior compared
+        to the rest of the data and can have a significant impact on the results of statistical analysis and machine learning models.</p>
+    <h3>Detecting Outlier</h3>
+    <p>In the K-Means clustering technique, each cluster has a mean value. Objects belong to the cluster whose mean value is closest to it. In order to identify the Outlier, firstly we need to initialize the threshold value such that any distance of anydata
+        point greater than it from its nearest cluster identifies it as an outlier for our purpose. Then we need to find the distance of the test data to each cluster mean. Now, if the distance between the test data and the closest cluster to it is greater
+        than the threshold value then we will classify the test data as an outlier</p>
+    <h3>Approaches for Outlier Detection</h3>
+    <h4><b>1.Statistical Methods</b></h4>
+    <ul>
+        <li>Z-Score: Measures how many standard deviations a data point is from the mean. Data points with a high absolute Z-score are considered outliers</li>
+        <li>IQR (Interquartile Range): Defines a range based on the quartiles of the data. Data points outside this range are considered outliers</li>
+    </ul>
+    <h4><b>2.Distance Based Methods</b></h4>
+    <ul>
+        <li>Euclidean Distance: Measures the straight-line distance between data points. Points that are far from the center or cluster of data may be outliers</li>
+        <li>Mahalanobis Distance: Accounts for correlations between variables and is particularly useful for high-dimensional datasets</li>
+
+        <li>DBSCAN (Density-Based Spatial Clustering of Applications with Noise): Clusters data points based on their density. Outliers are points that do not belong to any cluster</li>
+
+        <li>LOF (Local Outlier Factor): Computes the local density deviation of a data point with respect to its neighbors. Points with low local density compared to neighbors are considered outliers</li>
+    </ul>
+    <h4><b>3.Clustering-Based Methods</b></h4>
+    <ul>
+        <li>K-Means: Outliers may be points that do not belong to any cluster or belong to a small cluster</li>
+        <li>Hierarchical Clustering: Outliers can be identified by observing small or singleton clusters in the hierarchical structure</li>
+    </ul>
+    <h4><b>4.Isolation Forest</b></h4>
+    <ul>
+        <li>Constructs an ensemble of isolation trees to isolate outliers. Outliers are expected to have shorter paths in the tree structures</li>
+    </ul>
+    <h4><b>5.One-Class SVM (Support Vector Machine)</b></h4>
+    <ul>
+        <li>Trains a model on the normal data and identifies outliers as instances lying far from the decision boundary</li>
+    </ul>
+    <h3>Steps for Outlier Detection</h3>
+    <ol>
+        <li>Data Exploration: Understand the distribution and characteristics of the dataset.</li>
+        <li>Feature Engineering:Choose relevant features and transformations that enhance outlier detection.</li>
+        <li>Select Detection Method:Choose an appropriate outlier detection method based on the dataset characteristics and the desired sensitivity to outliers.</li>
+        <li>Set Threshold:Define a threshold beyond which data points are considered outliers. The choice of threshold depends on the specific problem.</li>
+        <li>Evaluate and Validate:Evaluate the performance of the outlier detection method using appropriate metrics. Cross-validation may be used to ensure generalization.</li>
+    </ol>
+
+```
+```{python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import warnings
+warnings.filterwarnings("ignore")
+from IPython.display import Image
+from sklearn.preprocessing import StandardScaler
+sns.set(style="darkgrid", palette="pastel", color_codes=True)
+sns.set_context('talk')
+```
+
+```{python}
+df = pd.read_csv('insurance.csv')
+```
+
+```{python}
+df.head(5)
+```
+
+```{python}
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
+
+fig = make_subplots(rows=1, cols=len(df.select_dtypes(exclude='object').columns), shared_yaxes=False)
+for i, col in enumerate(df.select_dtypes(exclude='object').columns):
+    fig.add_trace(go.Box(y=df[col], name=col), row=1, col=i+1)
+
+for i, col in enumerate(df.select_dtypes(exclude='object').columns):
+    fig.update_xaxes(title_text=col, row=1, col=i+1)
+fig.update_layout(title_text='Box Plots for Numerical Features',title_x=0.5, showlegend=False,width=1000,  height=500 )
+fig.show()
+```
+
+```{python}
+def out_iqr(df , column):
+    global lower,upper
+    q25, q75 = np.quantile(df[column], 0.25), np.quantile(df[column], 0.75)
+    iqr = q75 - q25
+    cutOff = iqr * 1.5
+    lower, upper = q25 - cutOff, q75 + cutOff
+    print('The IQR is',iqr)
+    print('The lower bound value is', lower)
+    print('The upper bound value is', upper)
+    df1 = df[df[column] > upper]
+    df2 = df[df[column] < lower]
+    return print('Total number of outliers are', df1.shape[0]+ df2.shape[0])
+```
+
+```{python}
+out_iqr(df,'age')
+```
+
+```{python}
+import plotly.express as px
+fig = make_subplots(rows=1, cols=len(df.select_dtypes(exclude='object').columns), shared_yaxes=False)
+for i, col in enumerate(df.select_dtypes(exclude='object').columns):
+    fig.add_trace(go.Histogram(x=df[col], name=col, ), row=1, col=i+1)
+for i, col in enumerate(df.select_dtypes(exclude='object').columns):
+    fig.update_xaxes(title_text=col, row=1, col=i+1)
+fig.update_layout(
+    title_text='Histograms for Numerical Features',
+    title_x=0.5,
+    showlegend=False,
+    width=1000,  
+    height=500  
+)
+fig.show()
+```
+
+```{python}
+from collections import Counter
+def IQR_method(df, n, features):
+    outlier_list = []
+    for column in features:
+        Q1 = np.percentile(df[column], 25)
+        Q3 = np.percentile(df[column], 75)
+        IQR = Q3 - Q1
+        outlier_step = 1.5 * IQR
+        outlier_list_column = df[(df[column] < Q1 - outlier_step) | (df[column] > Q3 + outlier_step)].index
+        outlier_list.extend(outlier_list_column)
+    outlier_list = Counter(outlier_list)
+    multiple_outliers = [k for k, v in outlier_list.items() if v > n]
+    total_outliers = sum(v for k, v in outlier_list.items() if v > n)
+    print('Total number of outliers is:', total_outliers)
+    return multiple_outliers
+```
+
+```{python}
+feature_list = ['age', 'bmi', 'children', 'charges']
+Outliers_IQR = IQR_method(df, 1, feature_list)
+df_out = df.drop(Outliers_IQR, axis=0).reset_index(drop=True)
+```
+
+```{python}
+features = ['age', 'bmi', 'children', 'charges']
+plt.figure(figsize=(16,10))
+for i, feature in enumerate(features, 1):
+    plt.subplot(2, len(features), i)
+    sns.histplot(df[feature], bins=30, kde=True)
+    plt.title(f'{feature}  Before Dropping Outliers')
+for i, feature in enumerate(features, 1):
+    plt.subplot(2, len(features), i + len(features))
+    sns.histplot(df_out[feature], bins=30, kde=True)
+    plt.title(f'{feature}  After Dropping Outliers')
+plt.tight_layout()
+plt.show()
+
+```
+
+```{python}
+from collections import Counter
+def StDev_method(df, n, features):
+    outlier_indices = []
+    for column in features:
+        mean = df[column].mean()
+        std = df[column].std()
+        cutOff= std * 3
+        outlier_listColumn = df[(df[column] < mean - cutOff) | (df[column] > mean +cutOff)].index
+        outlier_indices.extend(outlier_listColumn)
+    outlier_indices = Counter(outlier_indices)
+    multiple_outliers = [k for k, v in outlier_indices.items() if v > n]
+    total_outliers = sum(v for k, v in outlier_indices.items() if v > n)
+    print('Total number of outliers is:', total_outliers)
+    return multiple_outliers
+
+```
+
+```{python}
+Outliers_StDev = StDev_method(df,1,feature_list)
+df_out2 = df.drop(Outliers_StDev, axis = 0).reset_index(drop=True)
+```
+
+```{python}
+data_mean, data_std = df['charges'].mean(), df['charges'].std()
+cutOff = data_std * 3
+lower, upper = data_mean - cutOff, data_mean + cutOff
+print('The lower bound value is:', lower)
+print('The upper bound value is:', upper)
+plt.figure(figsize=(10, 6))
+sns.histplot(x='charges', data=df, bins=70, kde=True)
+plt.axvspan(xmin=lower, xmax=df['charges'].min(), alpha=0.2, color='red', label='Outlier Bound')
+plt.axvspan(xmin=upper, xmax=df['charges'].max(), alpha=0.2, color='red')
+plt.title('Histogram of Charges with Outlier Bound')
+plt.xlabel('Charges')
+plt.ylabel('Frequency')
+plt.legend()
+plt.show()
+```
+
+```{python}
+plt.figure(figsize=(16, 8))
+for i, feature in enumerate(features, 1):
+    plt.subplot(2, len(features), i)
+    sns.scatterplot(x=range(len(df)), y=df[feature], alpha=0.5)
+    plt.title(f'{feature} Before Dropping Outliers')
+for i, feature in enumerate(features, 1):
+    plt.subplot(2, len(features), i + len(features))
+    sns.scatterplot(x=range(len(df_out2)), y=df_out2[feature], alpha=0.5)
+    plt.title(f'{feature} After Dropping Outliers')
+plt.tight_layout()
+plt.show()
+
+```
+
+```{python}
+from collections import Counter
+def z_score_method(df, n, features, threshold=3):
+    outlier_list = []
+    for column in features:
+        mean = df[column].mean()
+        std = df[column].std()
+        zScore = abs((df[column] - mean) / std)
+        outlier_list_column = df[zScore > threshold].index
+        outlier_list.extend(outlier_list_column)
+    outlier_list = Counter(outlier_list)
+    multiple_outliers = [k for k, v in outlier_list.items() if v > n]
+    total_outliers = sum(v for k, v in outlier_list.items() if v > n)
+    print('Total number of outliers is:', total_outliers)
+    return multiple_outliers
+```
+
+```{python}
+Outliers_z_score = z_score_method(df,1,feature_list)
+df_out3 = df.drop(Outliers_z_score, axis = 0).reset_index(drop=True)
+```
+
+```{python}
+plt.figure(figsize=(16 , 10))
+for i, feature in enumerate(features, 1):
+    plt.subplot(3, len(features), i)
+    sns.histplot(df[feature], bins=30, kde=True)
+    plt.title(f'{feature} Before Dropping Outliers')
+    plt.subplot(3, len(features), i + len(features))
+    sns.histplot(df_out[feature], bins=30, kde=True)
+    plt.title(f'{feature} After Dropping Outliers')
+    plt.subplot(3, len(features), i + 2 * len(features))
+    data_mean = df[feature].mean()
+    data_std = df[feature].std()
+    zScore = abs((df[feature] - data_mean) / data_std)
+    sns.scatterplot(x=range(len(df)), y= zScore, alpha=0.5)
+    plt.axhline(y=3, color='red', linestyle='--', label='Threshold')
+    plt.title(f'{feature} Z-scores')
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+from scipy.stats import median_abs_deviation
+def z_scoremod_method(df, n, features):
+    outlier_list = []
+    for column in features:
+        data_mean = df[column].mean()
+        threshold = 3
+        MAD = median_abs_deviation(df[column])
+        mod_z_score = abs(0.6745 * (df[column] - data_mean) / MAD)
+        outlier_list_column = df[mod_z_score > threshold].index
+        outlier_list.extend(outlier_list_column)
+    outlier_list = Counter(outlier_list)
+    multiple_outliers = [k for k, v in outlier_list.items() if v > n]
+    total_outliers = sum(v for k, v in outlier_list.items() if v > n)
+    print('Total number of outliers is:', total_outliers)
+    return multiple_outliers
+```
+
+```{python}
+Outliers_z_score = z_scoremod_method(df,1,feature_list)
+df_out4 = df.drop(Outliers_z_score, axis = 0).reset_index(drop=True)
+```
+
+```{python}
+plt.figure(figsize=(16, 12))
+for i, feature in enumerate(features, 1):
+    plt.subplot(3, len(features), i)
+    sns.histplot(df[feature], bins=30, kde=True)
+    plt.title(f'{feature} Before Dropping Outliers')
+outliers_z_scoremod = z_scoremod_method(df, 1, features)
+df_out_z_scoremod = df.drop(outliers_z_scoremod, axis=0).reset_index(drop=True)
+for i, feature in enumerate(features, 1):
+    plt.subplot(3, len(features), i + len(features))
+    sns.histplot(df_out_z_scoremod[feature], bins=30, kde=True)
+    plt.title(f'{feature}  Z-score Modified Method')
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+from sklearn.ensemble import IsolationForest
+features = ['age', 'bmi', 'children', 'charges']
+clf = IsolationForest(contamination=0.05, random_state=42)  
+outliers = clf.fit_predict(df[features])
+outlier_mask = outliers == -1
+plt.figure(figsize=(20, 8))
+for i, feature in enumerate(features, 1):
+    plt.subplot(2, len(features), i)
+    sns.histplot(df[feature], bins=30, kde=True)
+    plt.title(f'{feature} Before Dropping Outliers')
+for i, feature in enumerate(features, 1):
+    plt.subplot(2, len(features), i + len(features))
+    sns.scatterplot(x=range(len(df)), y=df[feature], hue=outlier_mask, palette={True: 'red', False: 'blue'})
+    plt.title(f'{feature} with Outliers Highlighted')
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import DBSCAN
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+scaler = StandardScaler()
+scaled_data = scaler.fit_transform(df[features])
+dbscan = DBSCAN(eps=0.5, min_samples=10)
+label = dbscan.fit_predict(scaled_data)
+nclusters = len(set(label)) - (1 if -1 in label else 0)
+print('The number of clusters in the dataset is:', nclusters)
+print(pd.Series(label).value_counts())
+for i, feature1 in enumerate(features):
+    for j, feature2 in enumerate(features):
+        plt.figure(figsize=(10, 6))
+        sns.scatterplot(x=df[feature1], y=df[feature2], hue=label, palette='viridis', alpha=0.7)
+        plt.title(f'{feature1} vs {feature2}')
+        plt.legend(fontsize="small", bbox_to_anchor=(1.05, 1), loc='upper left')
+        plt.show()
+```
+

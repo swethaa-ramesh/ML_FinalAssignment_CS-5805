@@ -1,0 +1,472 @@
+---
+title: "Clasification"
+date: "2023-11-05"
+author: Swethaa
+image: "Image.png"
+---
+
+```{=html}
+<h1>Classification</h1>
+<img src="regression-vs-classification-in-machine-learning.png" alt="" height="300px">
+    <h3>What is Classification?</h3>
+    <p>Classification is a type of supervised machine learning task where the goal is to predict the categorical class labels of new instances based on past observations. In classification, the algorithm is trained on a labeled dataset, where each example
+        has an associated class label, and the model learns to map input features to specific categories.</p>
+    <p>Classification algorithms used in machine learning utilize input training data for the purpose of predicting the likelihood or probability that the data that follows will fall into one of the predetermined categories. One of the most common applications
+        of classification is for filtering emails into “spam” or “non-spam”, as used by today’s top email service providers</p>
+    <h3> Binary Classification vs. Multi-Class Classification:</h3>
+    <ul>
+        <li><b>Binary Classification</b>
+            <p>In binary classification, there are two possible classes or outcomes (e.g., spam or not spam, positive or negative)</p>
+        </li>
+        <li><b>Multi-Class Classification</b>
+            <p>In multi-class classification, there are more than two classes (e.g., classifying animals into categories like cats, dogs, and birds)</p>
+        </li>
+    </ul>
+    <h3>Types of Classification Algorithms</h3>
+    <ul>
+        <li><b>Linear Classifiers</b>
+            <p>Algorithms that create a linear decision boundary, such as Logistic Regression or Linear Support Vector Machines (SVM)</p>
+        </li>
+        <li><b>Non-linear Classifiers</b>
+            <p>Algorithms that can capture non-linear relationships, such as Decision Trees, Random Forests, k-Nearest Neighbors (k-NN), and Support Vector Machines with non-linear kernels</p>
+        </li>
+        <li><b>Ensemble Methods</b>
+            <p>Techniques that combine multiple base classifiers to improve overall performance, such as AdaBoost, Gradient Boosting, and Random Forests</p>
+        </li>
+        <li><b>Neural Networks</b>
+            <p>Deep learning models, such as artificial neural networks, are powerful for complex tasks but require a larger amount of data and computational resources</p>
+        </li>
+    </ul>
+    <img src="classification.png" alt="" height="300px">
+    <h3>Training a Classification Model</h3>
+    <ul>
+        <li><b>Dataset</b>
+            <p>A labeled dataset is required, where each instance is associated with a class label</p>
+        </li>
+        <li><b>Feature Extraction</b>
+            <p>Features are extracted from the input data. These can be numeric or categorical variables</p>
+        </li>
+        <li><b>Model Training</b></li>
+        <p>The algorithm learns the mapping between features and class labels using the labeled training data</p>
+    </ul>
+```
+
+```{python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+%matplotlib inline
+```
+```{python}
+df = pd.read_csv('creditcard.csv')
+```
+
+```{python}
+df.head()
+```
+
+```{python}
+df.describe()
+```
+
+```{python}
+df.info()
+```
+
+```{python}
+df.shape
+```
+
+```{python}
+df.columns
+```
+
+```{python}
+df.dropna(inplace=True)
+```
+
+```{python}
+df.isnull().sum()
+```
+
+```{python}
+df['Class'].unique()
+```
+
+```{python}
+correlation = df.corr()
+sns.heatmap(correlation)
+```
+
+```{python}
+sns.countplot(x='Class', data=df)
+plt.xlabel('Class (0: Not Fraud, 1: Fraud)')
+plt.ylabel('Count')
+plt.title('Credit Card Fraud Detection - Class Distribution')
+plt.show()
+```
+
+```{python}
+plt.figure(figsize=(10, 6))
+sns.histplot(x='Time', data=df, hue='Class', bins=30, kde=True)
+plt.xlabel('Transaction Time')
+plt.ylabel('Count')
+plt.title('Credit Card Fraud Detection - Transaction Time Distribution by Class')
+plt.show()
+```
+
+```{python}
+plt.figure(figsize=(8, 6))
+sns.barplot(x='Class', y='Amount', data=df, palette='Purples')
+plt.xlabel('Class (0: Not Fraud, 1: Fraud)')
+plt.ylabel('Transaction Amount')
+plt.title('Distribution of Transaction Amounts by Class')
+plt.show()
+```
+
+```{python}
+plt.figure(figsize=(8, 6))
+sns.barplot(x='Class', y='Time', data=df, palette='Purples')
+plt.xlabel('Class (0: Not Fraud, 1: Fraud)')
+plt.ylabel('Transaction Time')
+plt.title('Distribution of Transaction Times by Class')
+plt.show()
+```
+
+```{python}
+plt.figure(figsize=(8, 6))
+sns.barplot(x='Class', y='Amount', data=df, estimator=np.mean, palette='Blues')
+plt.xlabel('Class (0: Not Fraud, 1: Fraud)')
+plt.ylabel('Average Transaction Amount')
+plt.title('Average Transaction Amount by Class')
+plt.show()
+```
+
+```{python}
+df['Day_of_Week'] = pd.to_datetime(df['Time'], unit='s').dt.day_name()
+plt.figure(figsize=(12, 6))
+sns.countplot(x='Day_of_Week', data=df[df['Class'] == 1], order=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], palette='Greens')
+plt.xlabel('Day of the Week')
+plt.ylabel('Count of Fraudulent Transactions')
+plt.title('Count of Fraudulent Transactions by Day of the Week')
+plt.show()
+```
+
+```{python}
+sns.stripplot(x='Class', y='Time', data=df, palette='viridis')
+plt.xlabel('Class (0: Not Fraud, 1: Fraud)')
+plt.ylabel('Transaction Time')
+plt.title('Distribution of Transaction Times by Class')
+plt.show()
+```
+
+```{python}
+sns.boxplot(x=df['Time'], palette='Blues')
+plt.title('Boxplot of Transaction Times')
+plt.xlabel('Transaction Time')
+plt.show()
+```
+
+```{python}
+sns.lmplot(x='Amount', y='V25', data=df, hue='Class', palette='Set1', markers=['o', 's'], scatter_kws={'s': 50})
+plt.title('lmplot with Amount and V25')
+plt.show()
+```
+
+```{python}
+sns.lmplot(x='Amount', y='V1', data=df, hue='Class', palette='Set1', markers=['o', 's'], scatter_kws={'s': 50})
+plt.title('lmplot with Amount and V1')
+plt.show()
+```
+
+```{python}
+from sklearn.decomposition import PCA
+X = df.drop(columns='Class')
+y = df['Class']
+```
+```{python}
+X.head()
+```
+
+```{python}
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=42)
+```
+
+```{python}
+from sklearn.preprocessing import StandardScaler
+X_train_numeric = X_train.select_dtypes(exclude=['object'])
+scaler = StandardScaler()
+scaler.fit(X_train_numeric)
+X_train_scaled = scaler.transform(X_train_numeric)
+X_train_scaled
+```
+
+```{python}
+X_train_encoded = pd.get_dummies(X_train)
+scaler.fit(X_train_encoded)
+X_train_scaled = scaler.transform(X_train_encoded)
+X_train_scaled
+```
+
+```{python}
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+import pandas as pd
+clf = LogisticRegression(random_state=0, solver='sag', max_iter=1000)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=42)
+numeric_features = X.select_dtypes(include=['float64']).columns
+categorical_features = X.select_dtypes(include=['object']).columns
+numeric_transformer = Pipeline(steps=[
+    ('scaler', StandardScaler())
+])
+categorical_transformer = Pipeline(steps=[
+    ('onehot', OneHotEncoder(handle_unknown='ignore'))
+])
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', numeric_transformer, numeric_features),
+        ('cat', categorical_transformer, categorical_features)
+    ])
+clf = Pipeline(steps=[('preprocessor', preprocessor),
+                      ('classifier', LogisticRegression(random_state=0, solver='lbfgs', max_iter=1000))])
+clf.fit(X_train, y_train)
+y_pred = clf.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+conf_matrix = confusion_matrix(y_test, y_pred)
+print(f'Accuracy: {accuracy:.4f}')
+print('\nConfusion Matrix:')
+print(conf_matrix)
+```
+
+```{python}
+clf.score(X_test, y_test)
+```
+
+```{python}
+clf.score(X_train, y_train)
+```
+
+```{python}
+from sklearn.metrics import classification_report
+target_names = ['not_fraud', 'fraud']
+print(classification_report(y_test, y_pred, target_names=target_names))
+```
+
+```{python}
+from sklearn.metrics import log_loss
+y_pred_proba = clf.predict_proba(X_test)[:, 1]
+loss = log_loss(y_test, y_pred_proba)
+print(f'Log Loss: {loss:.4f}')
+```
+
+```{python}
+from sklearn.preprocessing import StandardScaler
+from sklearn.naive_bayes import GaussianNB
+X_train_numeric, X_test_numeric, y_train, y_test = train_test_split(X_train_numeric, y_train, test_size=0.4, random_state=42)
+scaler = StandardScaler()
+X_train_scaled_numeric = scaler.fit_transform(X_train_numeric)
+X_test_scaled_numeric = scaler.transform(X_test_numeric)
+clf = GaussianNB()
+clf.fit(X_train_scaled_numeric, y_train)
+y_pred = clf.predict(X_test_scaled_numeric)
+accuracy = accuracy_score(y_test, y_pred)
+conf_matrix = confusion_matrix(y_test, y_pred)
+classification_report_str = classification_report(y_test, y_pred)
+print(f'Accuracy: {accuracy:.4f}')
+print('\nConfusion Matrix:')
+print(conf_matrix)
+print('\nClassification Report:')
+print(classification_report_str)
+```
+
+```{python}
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+import pandas as pd
+X_train_numeric, X_test_numeric, y_train, y_test = train_test_split(X_train_numeric, y_train, test_size=0.4, random_state=42)
+scaler = StandardScaler()
+X_train_scaled_numeric = scaler.fit_transform(X_train_numeric)
+X_test_scaled_numeric = scaler.transform(X_test_numeric)
+dt_classifier = DecisionTreeClassifier(random_state=0)
+dt_classifier.fit(X_train_scaled_numeric, y_train)
+y_pred_dt = dt_classifier.predict(X_test_scaled_numeric)
+accuracy_dt = accuracy_score(y_test, y_pred_dt)
+conf_matrix_dt = confusion_matrix(y_test, y_pred_dt)
+classification_report_dt = classification_report(y_test, y_pred_dt)
+print(f'Decision Tree Classifier:')
+print(f'Accuracy: {accuracy_dt:.4f}')
+print('\nConfusion Matrix:')
+print(conf_matrix_dt)
+print('\nClassification Report:')
+print(classification_report_dt)
+```
+
+
+```{python}
+from sklearn.svm import SVC
+X_train_numeric, X_test_numeric, y_train, y_test = train_test_split(X_train_numeric, y_train, test_size=0.4, random_state=42)
+scaler = StandardScaler()
+X_train_scaled_numeric = scaler.fit_transform(X_train_numeric)
+X_test_scaled_numeric = scaler.transform(X_test_numeric)
+svm_classifier = SVC(random_state=0)
+svm_classifier.fit(X_train_scaled_numeric, y_train)
+y_pred_svm = svm_classifier.predict(X_test_scaled_numeric)
+accuracy_svm = accuracy_score(y_test, y_pred_svm)
+conf_matrix_svm = confusion_matrix(y_test, y_pred_svm)
+classification_report_svm = classification_report(y_test, y_pred_svm)
+print(f'SVM Classifier:')
+print(f'Accuracy: {accuracy_svm:.4f}')
+print('\nConfusion Matrix:')
+print(conf_matrix_svm)
+print('\nClassification Report:')
+print(classification_report_svm)
+```
+
+```{python}
+from sklearn.neighbors import KNeighborsClassifier
+X_train_numeric, X_test_numeric, y_train, y_test = train_test_split(X_train_numeric, y_train, test_size=0.4, random_state=42)
+scaler = StandardScaler()
+X_train_scaled_numeric = scaler.fit_transform(X_train_numeric)
+X_test_scaled_numeric = scaler.transform(X_test_numeric)
+knn_classifier = KNeighborsClassifier()
+knn_classifier.fit(X_train_scaled_numeric, y_train)
+y_pred_knn = knn_classifier.predict(X_test_scaled_numeric)
+accuracy_knn = accuracy_score(y_test, y_pred_knn)
+conf_matrix_knn = confusion_matrix(y_test, y_pred_knn)
+classification_report_knn = classification_report(y_test, y_pred_knn)
+print(f'K-Nearest Neighbors Classifier:')
+print(f'Accuracy: {accuracy_knn:.4f}')
+print('\nConfusion Matrix:')
+print(conf_matrix_knn)
+print('\nClassification Report:')
+print(classification_report_knn)
+```
+
+```{python}
+import tensorflow as tf
+from tensorflow.keras.callbacks import EarlyStopping
+from tensorflow.keras.layers import Dense,Activation,Flatten
+from tensorflow.keras import Sequential
+```
+
+```{python}
+model = Sequential()
+model.add(Flatten(input_shape=(X_train_scaled_numeric.shape[1],)))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(16, activation='relu'))
+model.add(Dense(1, activation='sigmoid'))
+earlystop = EarlyStopping(monitor='val_loss', patience=2, verbose=0, mode='min')
+model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+model.fit(X_train_scaled_numeric, y_train, epochs=10, validation_data=(X_test_scaled_numeric, y_test), callbacks=[earlystop])
+y_pred_probs = model.predict(X_test_scaled_numeric)
+y_pred_nn = (y_pred_probs > 0.5).astype(int)  
+accuracy_nn = accuracy_score(y_test, y_pred_nn)
+conf_matrix_nn = confusion_matrix(y_test, y_pred_nn)
+classification_report_nn = classification_report(y_test, y_pred_nn)
+print(f'Neural Network Classifier:')
+print(f'Accuracy: {accuracy_nn:.4f}')
+print('\nConfusion Matrix:')
+print(conf_matrix_nn)
+print('\nClassification Report:')
+print(classification_report_nn)
+```
+
+```{python}
+history = model.fit(X_train_scaled_numeric, y_train, epochs=10, validation_data=(X_test_scaled_numeric, y_test), callbacks=[earlystop])
+plt.figure(figsize=(12, 6))
+
+plt.subplot(1, 2, 1)
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.title('Model Loss')
+plt.xlabel('Epoch')
+plt.ylabel('Loss')
+plt.legend(['Train', 'Validation'], loc='upper right')
+
+plt.subplot(1, 2, 2)
+plt.plot(history.history['accuracy'])
+plt.plot(history.history['val_accuracy'])
+plt.title('Model Accuracy')
+plt.xlabel('Epoch')
+plt.ylabel('Accuracy')
+plt.legend(['Train', 'Validation'], loc='lower right')
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+from imblearn.over_sampling import SMOTE
+from sklearn.model_selection import train_test_split
+from sklearn.datasets import make_classification
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+import pandas as pd
+
+X, y = make_classification(n_classes=2, class_sep=2, weights=[0.1, 0.9], n_informative=3, n_redundant=1, flip_y=0, n_features=20, n_clusters_per_class=1, n_samples=1000, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+smote = SMOTE(random_state=42)
+X_resampled, y_resampled = smote.fit_resample(X_train, y_train)
+y_train_series = pd.Series(y_train)
+print("Original Training Set Class Distribution:")
+print(y_train_series.value_counts())
+print("\nResampled Training Set Class Distribution:")
+print(pd.Series(y_resampled).value_counts())
+print("\nTest Set Class Distribution:")
+print(pd.Series(y_test).value_counts())
+scaler = StandardScaler()
+X_resampled_scaled = scaler.fit_transform(X_resampled)
+X_test_scaled = scaler.transform(X_test)
+knn_classifier = KNeighborsClassifier()
+knn_classifier.fit(X_resampled_scaled, y_resampled)
+y_pred_knn = knn_classifier.predict(X_test_scaled)
+accuracy_knn = accuracy_score(y_test, y_pred_knn)
+conf_matrix_knn = confusion_matrix(y_test, y_pred_knn)
+classification_report_knn = classification_report(y_test, y_pred_knn)
+print(f'\nK-Nearest Neighbors Classifier:')
+print(f'Accuracy: {accuracy_knn:.4f}')
+print('\nConfusion Matrix:')
+print(conf_matrix_knn)
+print('\nClassification Report:')
+print(classification_report_knn)
+```
+
+```{python}
+from imblearn.under_sampling import RandomUnderSampler
+from sklearn.model_selection import train_test_split
+from sklearn.datasets import make_classification
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+import pandas as pd
+
+X, y = make_classification(n_classes=2, class_sep=2, weights=[0.1, 0.9], n_informative=3, n_redundant=1, flip_y=0, n_features=20, n_clusters_per_class=1, n_samples=1000, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+rus = RandomUnderSampler(random_state=42)
+X_resampled, y_resampled = rus.fit_resample(X_train, y_train)
+y_resampled_series = pd.Series(y_resampled)
+print("Resampled Training Set Class Distribution:")
+print(y_resampled_series.value_counts())
+scaler = StandardScaler()
+X_resampled_scaled = scaler.fit_transform(X_resampled)
+X_test_scaled = scaler.transform(X_test)
+knn_classifier = KNeighborsClassifier()
+knn_classifier.fit(X_resampled_scaled, y_resampled)
+y_pred_knn = knn_classifier.predict(X_test_scaled)
+accuracy_knn = accuracy_score(y_test, y_pred_knn)
+conf_matrix_knn = confusion_matrix(y_test, y_pred_knn)
+classification_report_knn = classification_report(y_test, y_pred_knn)
+print(f'\nK-Nearest Neighbors Classifier:')
+print(f'Accuracy: {accuracy_knn:.4f}')
+print('\nConfusion Matrix:')
+print(conf_matrix_knn)
+print('\nClassification Report:')
+print(classification_report_knn)
+```

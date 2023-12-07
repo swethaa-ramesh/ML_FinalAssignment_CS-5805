@@ -1,0 +1,302 @@
+---
+title: "Clustering"
+date: "2023-11-25"
+author: Swethaa
+image: "Image.png"
+---
+
+
+```{=html}
+<h2>Clustering</h2> 
+<h3>Content</h3>
+    <ul>
+        <li>Introduction</li>
+        <li>What is Clustering</li>
+        <li>Why Clustering</li>
+        <li>Types of Clustering Methods/ Algorithms</li>
+    </ul>
+    <h3>Introduction</h3>
+    <p>It is basically a type of unsupervised learning method. An unsupervised learning method is a method in which we draw references from datasets consisting of input data without labeled responses. Generally, it is used as a process to find meaningful
+        structure, explanatory underlying processes, generative features, and groupings inherent in a set of examples. </p>
+    <h3>What is Clustering</h3>
+    <p>Clustering is the task of dividing the population or data points into a number of groups such that data points in the same groups are more similar to other data points in the same group and dissimilar to the data points in other groups. It is basically
+        a collection of objects on the basis of similarity and dissimilarity between them. </p>
+    <p>Clustering is a type of unsupervised machine learning technique where the goal is to group similar data points together based on certain features or characteristics. The objective of clustering is to find natural groupings or patterns within a dataset
+        without the need for labeled output.</p>
+    <h3>Why Clustering</h3>
+    <p>When working with large datasets, an efficient way to analyze them is to first divide the data into logical groupings, aka clusters. This way, you could extract value from a large set of unstructured data. It helps you to glance through the data to
+        pull out some patterns or structures before going deeper into analyzing the data for specific findings</p>
+    <p>Clustering is very much important as it determines the intrinsic grouping among the unlabelled data present. There are no criteria for good clustering. It depends on the user, and what criteria they may use which satisfy their need</p>
+    <ol>
+        <li>
+            <b>Pattern Recognition:</b>
+            <p>Clustering helps identify natural groupings or patterns within data that may not be immediately apparent. It allows for the discovery of inherent structures and relationships.</p>
+        </li>
+        <li>
+            <b>Data Exploration and Understanding:</b>
+            <p>Insight into Data Distribution: Clustering provides insights into how data points are distributed and grouped in a dataset. This is valuable for exploratory data analysis and understanding the underlying structure.</p>
+        </li>
+        <li><b>Segmentation and Customer Profiling:</b>
+            <p>In business and marketing, clustering is often used for customer segmentation. It helps identify groups of customers with similar behavior, preferences, or purchasing patterns, enabling targeted marketing strategies.</p>
+        </li>
+
+        <li>
+           <b> Anomaly Detection:</b>
+            <p><b>Identification of Outliers:</b> Clustering can be used to identify unusual patterns or outliers in a dataset. Data points that do not conform to the patterns of their assigned clusters may be considered anomalies.</p>
+        </li>
+    </ol>
+    <h3>Types of Clustering Methods/ Algorithms</h3>
+    <table border="1" cellspacing="2" cellpadding="2" style="border: double;text-align: center;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+        <tr><b>
+            <th>Clustering Methods/ Algorithms</th>
+            <th>Method</th>
+            <th>Description</th>
+            <th>Advantages</th>
+            <th>Disadvantages</th></b>
+        </tr>
+        <tr>
+            <td>K-Means Clustering</td>
+            <td>Partitioning</td>
+            <td>Divides the dataset into a specified number (k) of clusters. </td>
+            <td>Simple and computationally efficient.</td>
+            <td>Sensitive to initial cluster centroids.</td>
+        </tr>
+        <tr>
+            <td>Hierarchical Clustering</td>
+            <td>Agglomerative (bottom-up) or divisive (top-down)</td>
+            <td>Builds a tree-like hierarchy of clusters</td>
+            <td>Provides a hierarchy of clusters, visualized using dendrogram.</td>
+            <td>Computationally more intensive.</td>
+        </tr>
+        <tr>
+            <td>DBSCAN</td>
+            <td>Density-based</td>
+            <td>Forms clusters based on the density of data points</td>
+            <td>Can discover clusters of arbitrary shapes and handles noise well</td>
+            <td>Sensitive to parameter settings</td>
+        </tr>
+        <tr>
+            <td>Mean Shift</td>
+            <td>Centroid-based</td>
+            <td>Iteratively shifts centroids towards the mode of the data distribution</td>
+            <td>Can find irregularly shaped clusters and adapt to varying densities</td>
+            <td>Computationally expensive</td>
+        </tr>
+        <tr>
+            <td>Gaussian Mixture Model (GMM)</td>
+            <td>Probabilistic</td>
+            <td>the data points are generated from a mixture of several Gaussian distributions</td>
+            <td>Can model complex data distributions and provide probabilistic cluster assignments</td>
+            <td>Sensitive to the initial parameters.</td>
+        </tr>
+        <tr>
+            <td>Mean Shift</td>
+            <td>Centroid-based</td>
+            <td>Iteratively shifts centroids towards the mode of the data distribution. The resulting clusters are regions of high data density</td>
+            <td>Can find irregularly shaped clusters and adapt to varying densities</td>
+            <td>Computationally expensive</td>
+        </tr>
+          <tr>
+            <td>Agglomerative Clustering</td>
+            <td>Hierarchical, bottom-up</td>
+            <td>Starts with individual data points as separate clusters and iteratively merges the closest clusters until a stopping criterion is met</td>
+            <td>Can handle different shapes and sizes of clusters</td>
+            <td>Computationally more intensive</td>
+        </tr>
+    </table>
+```
+
+```{python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+%matplotlib inline
+```
+
+```{python}
+df = pd.read_csv('IMDB.csv')
+```
+
+```{python}
+df.head()
+```
+
+```{python}
+df.columns
+```
+
+```{python}
+df['Year']
+```
+```{python}
+df.dropna(inplace=True)
+```
+```{python}
+df.isnull().sum()
+```
+```{python}
+plt.figure(figsize=(10, 6))
+sns.countplot(x='Type', data=df, palette='viridis')
+plt.title('Distribution of TV Shows by Genres')
+plt.show()
+```
+```{python}
+top_rated_shows = df.sort_values(by='Rating', ascending=False).head(10)
+plt.figure(figsize=(12, 6))
+sns.barplot(x='Rating', y='Name', data=top_rated_shows, palette='Blues_r')
+plt.title('Top-rated TV Shows and Their IMDb Ratings')
+plt.xlabel('IMDb Rating')
+plt.ylabel('TV Show Name')
+plt.show()
+```
+```{python}
+plt.figure(figsize=(12, 6))
+sns.swarmplot(x='Type', y='Rating', data=df, palette='dark', size=8)
+plt.title('IMDb Ratings Distribution by TV Show Type')
+plt.xlabel('TV Show Type')
+plt.ylabel('IMDb Rating')
+plt.show()
+```
+```{python}
+sns.pairplot(df[['Year', 'Episodes', 'Rating', 'Type']], hue='Type', palette='Set1')
+plt.suptitle('Pair Plot of TV Show Data with Type Hue', y=1.02)
+plt.show()
+```
+```{python}
+fig, ax = plt.subplots(1, figsize = (30,8))
+ax = sns.scatterplot(x='Year', y='Rating', data=df, hue='Type', palette='Set1', alpha=0.7)
+ax.grid()
+fig.autofmt_xdate()
+plt.xticks(rotation = 90, ha = 'right',
+           fontsize = 10)
+plt.xlim(0, 178)
+plt.title('Correlation between Release Year and IMDb Ratings')
+plt.xlabel('Release Year')
+plt.ylabel('IMDb Rating')
+plt.legend(title='TV Show Type')
+plt.show()
+```
+
+
+```{python}
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+top_rated_descriptions = " ".join(df['Description'])
+wordcloud = WordCloud(width=800, height=400, background_color='white').generate(top_rated_descriptions)
+plt.figure(figsize=(10, 5))
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis('off')
+plt.title('Word Cloud of Top-rated TV Show Descriptions')
+plt.show()
+```
+```{python}
+numerical_features = df[['Year', 'Episodes', 'Rating']]
+```
+```{python}
+df['Year'] = df['Year'].astype(str)
+df.loc[:, 'Year'] = df['Year'].str.split('–').str[0].astype(int)
+```
+```{python}
+df.loc[:, 'Episodes'] = pd.to_numeric(df['Episodes'].str.extract('(\d+)')[0], errors='coerce')
+```
+```{python}
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+
+features = df[['Year', 'Episodes', 'Rating']]
+features = features.dropna()
+scaler = StandardScaler()
+features_scaled = scaler.fit_transform(features)
+num_clusters = 3
+kmeans = KMeans(n_clusters=num_clusters, random_state=42)
+df['Cluster'] = kmeans.fit_predict(features_scaled)
+print(df[['Name', 'Cluster']])
+plt.scatter(features_scaled[:, 0], features_scaled[:, 1], c=df['Cluster'], cmap='viridis')
+plt.xlabel('Year')
+plt.ylabel('Episodes')
+plt.title('K-Means Clustering')
+plt.show()
+```
+```{python}
+X = df[['Year', 'Episodes', 'Rating']].dropna()
+wcss = []
+for i in range(1, 11):
+    kmeans = KMeans(n_clusters=i, init='k-means++', random_state=0)
+    kmeans.fit(X)
+    wcss.append(kmeans.inertia_)
+
+plt.plot(range(1, 11), wcss, marker='o')
+plt.title('The Elbow Method')
+plt.xlabel('Number of Clusters')
+plt.ylabel('WCSS')
+plt.show()
+```
+```{python}
+num_clusters = 4
+clusterer = KMeans(n_clusters=num_clusters, random_state=10)
+cluster_labels = clusterer.fit_predict(X)
+print("Cluster Labels:")
+print(cluster_labels)
+df['Cluster'] = cluster_labels
+print("Data with Cluster Labels:")
+print(df[['Name', 'Year', 'Episodes', 'Rating', 'Cluster']])
+```
+```{python}
+
+from sklearn.metrics import silhouette_samples, silhouette_score
+import matplotlib.cm as cm
+range_n_clusters = [2, 3, 4, 5, 6]
+for n_clusters in range_n_clusters:
+    fig, (ax1, ax2) = plt.subplots(1, 2)
+    
+    ax1.set_xlim([-0.1, 1])
+    ax1.set_ylim([0, len(X) + (n_clusters + 1) * 10])
+    clusterer = KMeans(n_clusters=n_clusters, random_state=10)
+    cluster_labels = clusterer.fit_predict(X)
+    silhouette_avg = silhouette_score(X, cluster_labels)
+    print("For n_clusters =", n_clusters,
+          "The average silhouette_score is :", silhouette_avg)
+    sample_silhouette_values = silhouette_samples(X, cluster_labels)
+    y_lower = 10
+    for i in range(n_clusters):
+        ith_cluster_silhouette_values = \
+            sample_silhouette_values[cluster_labels == i]
+        ith_cluster_silhouette_values.sort()
+        size_cluster_i = ith_cluster_silhouette_values.shape[0]
+        y_upper = y_lower + size_cluster_i
+        color = cm.nipy_spectral(float(i) / n_clusters)
+        ax1.fill_betweenx(np.arange(y_lower, y_upper),
+                          0, ith_cluster_silhouette_values,
+                          facecolor=color, edgecolor=color, alpha=0.7)
+
+        ax1.text(-0.05, y_lower + 0.5 * size_cluster_i, str(i))
+        y_lower = y_upper + 10  
+    ax1.set_title("The silhouette plot ")
+    ax1.set_xlabel("The silhouette coefficient values")
+    ax1.set_ylabel("Cluster label")
+    ax1.axvline(x=silhouette_avg, color="red", linestyle="--")
+    ax1.set_yticks([])  
+    ax1.set_xticks([-0.1, 0, 0.2, 0.4, 0.6, 0.8, 1])
+    colors = cm.nipy_spectral(cluster_labels.astype(float) / n_clusters)
+    ax2.scatter(X.iloc[:, 0], X.iloc[:, 1], marker='.', s=30, lw=0, alpha=0.7,
+                c=colors, edgecolor='k')
+
+    centers = clusterer.cluster_centers_
+    ax2.scatter(centers[:, 0], centers[:, 1], marker='o',
+                c="white", alpha=1, s=200, edgecolor='k')
+
+    for i, c in enumerate(centers):
+        ax2.scatter(c[0], c[1], marker='$%d$' % i, alpha=1,
+                    s=50, edgecolor='k')
+
+    ax2.set_title("The visualization of the clustered data.")
+    ax2.set_xlabel("Feature space for the 1st feature")
+    ax2.set_ylabel("Feature space for the 2nd feature")
+
+    plt.suptitle(("Silhouette analysis for KMeans clustering on sample data "
+                  "with n_clusters = %d" % n_clusters),
+                 fontsize=14, fontweight='bold')
+
+plt.show()
+```

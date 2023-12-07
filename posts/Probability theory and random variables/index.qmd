@@ -1,0 +1,313 @@
+---
+title: "Probability theory and random variables"
+date: "2023-11-14"
+author: Swethaa
+image: "Image.jpg"
+---
+```{=html}
+<h1>Probability Distribution</h1>
+<h3>Content</h3>
+<ul>
+    <li>What is Probability Distribution?</li>
+    <li>Random Variables</li>
+    <li>Definition of Random Variable</li>
+    <li>Types of Random Variables</li>
+</ul>
+<div class="what">
+    <h3>What is Probability Distribution?</h3>
+    <p>In Probability Distribution, A Random Variable’s outcome is uncertain. Here, the outcome’s observation is known as Realization. It is a Function that maps Sample Space into a Real number space, known as State Space. They can be Discrete or Continuous.
+        <b>Probability Distribution is basically the set of all possible outcomes of any random experiment or event.</b> </p>
+</div>
+<div class="Random">
+    <h3>Random Variables</h3>
+    <p>Random Variable is a real-valued function whose domain is the sample space of the random experiment. It is represented as
+        <b><em>X(sample space) = Real number.</em></b><br> We need to learn the concept of Random Variables because sometimes we are just only interested in the probability of the event but also in the number of events associated with the random experiment.
+        The importance of random variables can be better understood by the following example:</p>
+    <h3>Why do we need Random Variables?</h3>
+    <p>
+        <br> So now we flip our coin 3 times, and we want to answer some questions.
+    </p>
+    <ol>
+        <li>What is the probability of getting exactly 3 heads?</li>
+        <li>What is the probability of getting less than 3 heads?</li>
+        <li>What is the probability of getting more than 1 head?</li>
+    </ol>
+    <p>Then our general way of writing would be:</p>
+    <ol>
+        <li>P(Probability of getting exactly 3 heads when we flip a coin 3 times)</li>
+        <li>P(Probability of getting less than 3 heads when we flip a coin 3 times)</li>
+        <li>P(Probability of getting more than 1 head when we flip a coin 3 times) </li>
+    </ol>
+    <img src="Coin-Toss-Probability.png" alt="" height="300px">
+
+    <h3>Definition of Random Variable</h3>
+    <p>A random variable is a real valued function whose domain is the sample space of a random experiment</p>
+    <h3>Types of Random Variables in Probability Distribution</h3>
+    <h5>There are following two types of </h5>
+    <ul>
+        <li>
+            Discrete Random Variables
+        </li>
+        <li>
+            Continuous Random Variables
+        </li>
+    </ul>
+    <h4>Discrete Random Variables in Probability Distribution</h4>
+    <p>In probability theory, a discrete random variable is a type of random variable that can take on a finite or countable number of distinct values. These values are often represented by integers or whole numbers, other than this they can also be represented
+        by other discrete values. </p>
+    <p>For example, the number of heads obtained after flipping a coin three times is a discrete random variable. The possible values of this variable are 0, 1, 2, or 3.</p>
+    <h5> there are various other examples of random discrete variables.</h5>
+    <ul>
+        <li>The number of cars that pass through a given intersection in an hour.</li>
+        <li>The number of defective items in a shipment of goods.</li>
+        <li>The number of red balls drawn in a sample of 10 balls taken from a jar containing both red and blue balls.</li>
+    </ul>
+    <h3>Different Types of Probability Distributions</h3>
+    <ul>
+        <li>Discrete Probability Distributions for discrete variables</li>
+        <li>Cumulative Probability Distribution for continuous variables</li>
+    </ul>
+    <img src="Formula.jpg" alt="">
+</div>
+```
+```{python}
+import warnings
+import seaborn as sns
+import matplotlib.pyplot as plt
+warnings.filterwarnings('ignore')
+import numpy as np
+import pandas as pd
+from IPython.display import Image
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import DBSCAN
+sns.set(style="darkgrid", palette="pastel", color_codes=True)
+sns.set_context('talk')
+```
+```{=html}
+<p>The dataset, 'Walmart_Store_sales.csv', is loaded into a Pandas DataFrame, providing a structured and manipulable format for the data.The first five rows of the dataset are displayed, offering an initial glimpse into the data's structure and contents.</p> 
+```
+
+```{python}
+df = pd.read_csv('Walmart_Store_sales.csv')
+df.head(5)
+```
+
+```{=html}
+<p>This provides an overview of the column names.</p> 
+```
+```{python}
+df.columns
+```
+```{=html}
+<p>This code command provides a concise summary of a DataFrame in Python, displaying information such as the number of non-null values, data types, and memory usage.</p> 
+```
+```{python}
+df.info()
+```
+
+```{=html}
+<p>This code retrieves the column names of a DataFrame in pandas, providing a quick overview of the dataset's features</p> 
+```
+```{=html}
+<p>This code provides a quick overview of the central tendency, dispersion, and distribution of the numerical data in the DataFrame.</p> 
+```
+```{python}
+df.describe()
+```
+```{=html}
+<p>df.shape  It returns a tuple representing the shape of the DataFrame in the form (number of rows, number of columns)</p> 
+```
+```{python}
+df.shape
+```
+```{=html}
+<p>df.isnull() is a useful tool for data cleaning and exploration to identify and handle missing values in a dataset. </p> 
+```
+```{python}
+df.isnull()
+```
+
+```{=html}
+<p>dropna is used to dropping rows with missing values  from the DataFrame.
+    .sum() checks and counts the number of missing values in each column of the DataFrame </p> 
+```
+```{python}
+df.dropna(inplace =True)
+df.isnull().sum()
+```
+```{=html}
+<p>To Check  if there are any duplicated rows in the DataFrame. </p> 
+```
+```{python}
+df.duplicated().any()
+```
+```{=html}
+<p>This code provides a visual representation of the distribution of the variable Weekly_Sales along with its fitted normal distribution. </p> 
+```
+
+```{python}
+from scipy.stats import norm
+variable_of_interest = 'Weekly_Sales'
+plt.figure(figsize=(8, 6))
+sns.histplot(df[variable_of_interest], kde=True, bins=30, color='blue', stat='density')
+mu, std = df[variable_of_interest].mean(), df[variable_of_interest].std()
+xmin, xmax = plt.xlim()
+x = np.linspace(xmin, xmax, 100).round(2)
+p = norm.pdf(x, mu, std).round(2)
+plt.plot(x, p, 'k', linewidth=2)
+print(variable_of_interest,x,p)
+plt.xlabel(variable_of_interest)
+plt.ylabel('Probability Density')
+plt.title(f'Probability Density Function for {variable_of_interest}')
+plt.show()
+
+```
+```{=html}
+<p>This code efficiently organizes subplots for each column, creates histograms with KDE, overlays PDFs based on normal distributions, and displays the visualizations for multiple columns in your DataFrame. Adjustments are made for cases where the number of columns is odd. </p> 
+```
+```{python}
+sns.set(style="whitegrid")
+df.drop('Date', axis=1, inplace=True)
+num_columns = len(df.columns)
+num_rows = (num_columns // 2) + (num_columns % 2)  
+num_cols = 2
+fig, axes = plt.subplots(num_rows, num_cols, figsize=(8, 3 * num_rows))
+if num_rows == 1:
+    axes = axes.reshape(1, -1)
+for i, column in enumerate(df.columns):
+    row_idx = i // num_cols
+    col_idx = i % num_cols
+    sns.histplot(df[column], kde=True, bins=30, color='blue', stat='density', ax=axes[row_idx, col_idx])
+    mu, std = df[column].mean(), df[column].std()
+    xmin, xmax = axes[row_idx, col_idx].get_xlim()
+    x = np.linspace(xmin, xmax, 100)
+    p = norm.pdf(x, mu, std)
+    axes[row_idx, col_idx].plot(x, p, 'k', linewidth=2)
+    print(column )
+    print(x,p)
+    axes[row_idx, col_idx].set_xlabel(column)
+    axes[row_idx, col_idx].set_ylabel('Probability Density')
+    axes[row_idx, col_idx].set_title(f'PDF for {column}')
+
+if num_columns % 2 == 1:
+    fig.delaxes(axes[-1, -1])
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+from scipy.stats import rv_histogram
+column_of_interest = 'Weekly_Sales'
+hist, bin_edges = np.histogram(df[column_of_interest], bins=30, density=True)
+pmf = rv_histogram((hist, bin_edges))
+x_values = np.linspace(df[column_of_interest].min(), df[column_of_interest].max(), 100).round(2)
+pmf_values = pmf.pdf(x_values)
+print("X values\n",x_values)
+print("pmf values \n",pmf_values)
+plt.bar(bin_edges[:-1], hist, width=np.diff(bin_edges), alpha=0.7, label='Histogram')
+plt.plot(x_values, pmf_values, color='red', label='PMF', linewidth=2)
+plt.title(f'Probability Mass Function (PMF) for {column_of_interest}')
+plt.xlabel(column_of_interest)
+plt.ylabel('Probability')
+plt.legend()
+plt.show()
+
+```
+
+```{python}
+from scipy.stats import geom
+selected_column = 'Temperature'
+temperature_threshold = 60
+success_data = df[df[selected_column] > temperature_threshold]
+p = len(success_data) / len(df)
+print('probability of success ',p)
+k_values = np.arange(1, 11)
+pmf_values = geom.pmf(k_values, p)
+plt.bar(k_values, pmf_values, align='center', alpha=0.7)
+plt.title(f'Geometric Distribution PMF for {selected_column}')
+plt.xlabel('Number of Trials Until First Success (k)')
+plt.ylabel('Probability')
+plt.show()
+
+```
+
+```{python}
+import statsmodels.api as sm
+columns = df.columns
+fig, axes = plt.subplots(nrows=len(columns), ncols=1, figsize=(8, 4 * len(columns)))
+for i, column in enumerate(columns):
+    ecdf = sm.distributions.ECDF(df[column])
+    x = sorted(df[column].unique())
+    y = ecdf(x)
+    print(column)
+    print(x,y)
+    axes[i].step(x, y, label=column)
+    axes[i].set_title(f'Cumulative Distribution Function of {column}')
+    axes[i].set_xlabel(column)
+    axes[i].set_ylabel('Cumulative Probability')
+    axes[i].legend()
+plt.tight_layout()
+plt.show()
+
+```
+
+```{python}
+
+from scipy.stats import hypergeom
+population_size = len(df)
+sample_size = 10
+num_columns = len(df.columns)
+num_rows = (num_columns // 2) + (num_columns % 2)
+num_cols = 2
+
+fig, axes = plt.subplots(num_rows, num_cols, figsize=(15, 3 * num_rows))
+if num_rows == 1:
+    axes = axes.reshape(1, -1)
+for i, column in enumerate(df.columns):
+    row_idx = i // num_cols
+    col_idx = i % num_cols
+
+    numeric_data = pd.to_numeric(df[column], errors='coerce')
+    numeric_data = numeric_data.dropna()
+    successes_in_population = np.sum(numeric_data > 0)
+    print(column)
+    print('successes',successes_in_population)
+    k_values = np.arange(0, min(sample_size, successes_in_population) + 1)
+
+    pmf_values = hypergeom.pmf(k_values, population_size, successes_in_population, sample_size)
+    print(f'Hypergeometric Distribution PMF for {column}',pmf_values)
+    axes[row_idx, col_idx].bar(k_values, pmf_values, align='center', alpha=0.7)
+    axes[row_idx, col_idx].set_title(f'Hypergeometric Distribution PMF for {column}')
+    axes[row_idx, col_idx].set_xlabel('Number of Successes in Draws (k)')
+    axes[row_idx, col_idx].set_ylabel('Probability')
+
+if num_columns % 2 == 1:
+    fig.delaxes(axes[-1, -1])
+
+plt.tight_layout()
+plt.show()
+
+```
+
+```{python}
+from scipy.stats import norm
+numeric_columns = df.select_dtypes(include=['int64', 'float64']).columns
+
+fig, axes = plt.subplots(nrows=len(numeric_columns), figsize=(8, 4 * len(numeric_columns)))
+fig.subplots_adjust(hspace=0.5)
+
+for i, column in enumerate(numeric_columns):
+    sns.histplot(df[column], kde=True, ax=axes[i])
+    axes[i].set_title(f'Distribution of {column}')
+    axes[i].set_xlabel(column)
+    axes[i].set_ylabel('Density')
+    mu, std = norm.fit(df[column])
+    xmin, xmax = plt.xlim()
+    x = np.linspace(xmin, xmax, 100)
+    p = norm.pdf(x, mu, std)
+    axes[i].plot(x, p, 'k', linewidth=2)
+    axes[i].legend(['Gaussian fit'])
+
+plt.tight_layout()
+plt.show()
+```
