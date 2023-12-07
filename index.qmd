@@ -1,7 +1,5 @@
 ---
 title: "CS 5805-Final Term Project"
-project:
-output-dir: docs
 listing:
   contents: posts
   sort: "date desc"

@@ -1,0 +1,12 @@
+---
+title: "References"
+date: "2023-11-05"
+author: Swethaa
+image: "image.jpg"
+---
+
+```{=html}
+<h3>1. Taboga, Marco (2021). "Continuous random variable", Lectures on probability theory and mathematical statistics.</h3>
+<h3>2.https://www.geeksforgeeks.org/machine-learning-outlier/</h3>
+<h3>3.https://www.javatpoint.com/linear-regression-in-machine-learning</h3>
+```
