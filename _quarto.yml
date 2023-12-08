@@ -3,8 +3,6 @@ project:
   output-dir: docs
 website:
   title: "CS 5805"
-  repo-url: https://swethaa-ramesh.github.io/ML_FinalAssignment_CS-5805/
-  repo-actions: [source]
   navbar:
     right:
       - about.qmd
