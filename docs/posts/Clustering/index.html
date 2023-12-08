@@ -1,464 +1,380 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
-<head>
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
 
-    <meta charset="utf-8">
-    <meta name="generator" content="quarto-1.3.450">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="Swethaa">
+<meta name="dcterms.date" content="2023-11-25">
 
-    <meta name="author" content="Swethaa">
-    <meta name="dcterms.date" content="2023-11-25">
-
-    <title>CS 5805 - Clustering</title>
-    <style>
-        code {
-            white-space: pre-wrap;
-        }
-        
-        span.smallcaps {
-            font-variant: small-caps;
-        }
-        
-        div.columns {
-            display: flex;
-            gap: min(4vw, 1.5em);
-        }
-        
-        div.column {
-            flex: auto;
-            overflow-x: auto;
-        }
-        
-        div.hanging-indent {
-            margin-left: 1.5em;
-            text-indent: -1.5em;
-        }
-        
-        ul.task-list {
-            list-style: none;
-        }
-        
-        ul.task-list li input[type="checkbox"] {
-            width: 0.8em;
-            margin: 0 0.8em 0.2em -1em;
-            /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */
-            vertical-align: middle;
-        }
-        /* CSS for syntax highlighting */
-        
-        pre>code.sourceCode {
-            white-space: pre;
-            position: relative;
-        }
-        
-        pre>code.sourceCode>span {
-            display: inline-block;
-            line-height: 1.25;
-        }
-        
-        pre>code.sourceCode>span:empty {
-            height: 1.2em;
-        }
-        
-        .sourceCode {
-            overflow: visible;
-        }
-        
-        code.sourceCode>span {
-            color: inherit;
-            text-decoration: inherit;
-        }
-        
-        div.sourceCode {
-            margin: 1em 0;
-        }
-        
-        pre.sourceCode {
-            margin: 0;
-        }
-        
-        @media screen {
-            div.sourceCode {
-                overflow: auto;
-            }
-        }
-        
-        @media print {
-            pre>code.sourceCode {
-                white-space: pre-wrap;
-            }
-            pre>code.sourceCode>span {
-                text-indent: -5em;
-                padding-left: 5em;
-            }
-        }
-        
-        pre.numberSource code {
-            counter-reset: source-line 0;
-        }
-        
-        pre.numberSource code>span {
-            position: relative;
-            left: -4em;
-            counter-increment: source-line;
-        }
-        
-        pre.numberSource code>span>a:first-child::before {
-            content: counter(source-line);
-            position: relative;
-            left: -1em;
-            text-align: right;
-            vertical-align: baseline;
-            border: none;
-            display: inline-block;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            padding: 0 4px;
-            width: 4em;
-        }
-        
-        pre.numberSource {
-            margin-left: 3em;
-            padding-left: 4px;
-        }
-    </style>
+<title>CS 5805 - Clustering</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
 
 
-    <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-    <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-    <script src="../../site_libs/clipboard/clipboard.min.js"></script>
-    <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-    <script src="../../site_libs/quarto-search/fuse.min.js"></script>
-    <script src="../../site_libs/quarto-search/quarto-search.js"></script>
-    <meta name="quarto:offset" content="../../">
-    <script src="../../site_libs/quarto-html/quarto.js"></script>
-    <script src="../../site_libs/quarto-html/popper.min.js"></script>
-    <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-    <script src="../../site_libs/quarto-html/anchor.min.js"></script>
-    <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-    <link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-    <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-    <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-    <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-    <script id="quarto-search-options" type="application/json">
-        {
-            "location": "navbar",
-            "copy-button": false,
-            "collapse-after": 3,
-            "panel-placement": "end",
-            "type": "overlay",
-            "limit": 20,
-            "language": {
-                "search-no-results-text": "No results",
-                "search-matching-documents-text": "matching documents",
-                "search-copy-link-title": "Copy link to search",
-                "search-hide-matches-text": "Hide additional matches",
-                "search-more-match-text": "more match in this document",
-                "search-more-matches-text": "more matches in this document",
-                "search-clear-button-title": "Clear",
-                "search-detached-cancel-button-title": "Cancel",
-                "search-submit-button-title": "Submit",
-                "search-label": "Search"
-            }
-        }
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
-    <script type="application/javascript">
-        define('jquery', [], function() {
-            return window.jQuery;
-        })
-    </script>
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
-    <link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-fixed fullcontent">
 
-    <div id="quarto-search-results"></div>
-    <header id="quarto-header" class="headroom fixed-top">
-        <nav class="navbar navbar-expand-lg navbar-dark ">
-            <div class="navbar-container container-fluid">
-                <div class="navbar-brand-container">
-                    <a class="navbar-brand" href="../../index.html">
-                        <span class="navbar-title">CS 5805</span>
-                    </a>
-                </div>
-                <div id="quarto-search" class="" title="Search"></div>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">CS 5805</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <ul class="navbar-nav navbar-nav-scroll ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="../../about.html" rel="" target="">
-                                <span class="menu-text">About</span></a>
-                        </li>
-                        <li class="nav-item compact">
-                            <a class="nav-link" href="https://github.com/" rel="" target=""><i class="bi bi-github" role="img">
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/" rel="" target=""><i class="bi bi-github" role="img">
 </i> 
  <span class="menu-text"></span></a>
-                        </li>
-                    </ul>
-                    <div class="quarto-navbar-tools">
-                    </div>
-                </div>
-                <!-- /navcollapse -->
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Clustering</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Swethaa </p>
             </div>
-            <!-- /container-fluid -->
-        </nav>
-    </header>
-    <!-- content -->
-    <header id="title-block-header" class="quarto-title-block default page-columns page-full">
-        <div class="quarto-title-banner page-columns page-full">
-            <div class="quarto-title column-body">
-                <h1 class="title">Clustering</h1>
-            </div>
-        </div>
-
-
-        <div class="quarto-title-meta">
-
-            <div>
-                <div class="quarto-title-meta-heading">Author</div>
-                <div class="quarto-title-meta-contents">
-                    <p>Swethaa </p>
-                </div>
-            </div>
-
-            <div>
-                <div class="quarto-title-meta-heading">Published</div>
-                <div class="quarto-title-meta-contents">
-                    <p class="date">November 25, 2023</p>
-                </div>
-            </div>
-
-
-        </div>
-
-
-    </header>
-    <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
-        <!-- sidebar -->
-        <!-- margin-sidebar -->
-
-        <!-- main -->
-        <main class="content quarto-banner-title-block" id="quarto-document-content">
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">November 25, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
-            <h2 class="anchored">Clustering</h2>
-            <h3 class="anchored">Content</h3>
-            <ul>
-                <li>Introduction</li>
-                <li>What is Clustering</li>
-                <li>Why Clustering</li>
-                <li>Types of Clustering Methods/ Algorithms</li>
-            </ul>
-            <h3 class="anchored">Introduction</h3>
-            <p>sentially an unsupervised learning strategy. Unsupervised learning is a method that draws references from datasets of input data without labelled answers. It is commonly used as a procedure to discover significant structure, explanatory underlying
-                processes, generative qualities, and groups inherent in a set of instances. </p>
-            <h3 class="anchored">What is Clustering</h3>
-            <p>Clustering is the process of separating a population or set of data points into groups so that data points in the same group are more similar to other data points in the same group and different to data points in other groups. It is essentially
-                a collection of items based on their similarity and dissimilarity.</p>
-            <p>Clustering is a form of unsupervised machine learning approach in which comparable data points are grouped together based on particular attributes or qualities. Clustering seeks natural groups or patterns within a dataset without the requirement
-                for labelled output. </p>
-            <h3 class="anchored">Why Clustering</h3>
-            <p>When working with enormous datasets, dividing the data into logical groupings, termed clusters, is an effective approach to analyse them. You could extract value from a big quantity of unstructured data in this manner. It allows you to quickly
-                scan the data for patterns or structures before delving further into the data for particular results.</p>
-            <p>Clustering is critical because it determines the intrinsic grouping of the unlabeled data provided. There are no requirements for good clustering. It is up to the user to determine what criteria will fulfil&nbsp;their&nbsp;needs.</p>
-            <ol>
-                <li>
-                    <b>Pattern Recognition:</b>
-                    <p>Clustering assists in identifying natural groups or patterns within data that may not be immediately evident. It enables the finding of innate structures&nbsp;and&nbsp;linkages.</p>
-                </li>
-                <li>
-                    <b>Data Exploration and Understanding:</b>
-                    <p>Data Distribution Insight: Clustering reveals how data points in a collection are distributed and categorised. This is useful for exploratory data analysis and comprehension of the underlying&nbsp;structure.</p>
-                </li>
-                <li><b>Segmentation and Customer Profiling:</b>
-                    <p>In business and marketing, clustering is often used to segment customers. It helps to identify groups of customers with similar behavior, preferences or buying habits, which enables targeted marketing strategies.</p>
-                </li>
+<h2 class="anchored">Clustering</h2> 
+<h3 class="anchored">Content</h3>
+    <ul>
+        <li>Introduction</li>
+        <li>What is Clustering</li>
+        <li>Why Clustering</li>
+        <li>Types of Clustering Methods/ Algorithms</li>
+    </ul>
+    <h3 class="anchored">Introduction</h3>
+    <p>It is essentially an unsupervised learning strategy. Unsupervised learning is a method that draws references from datasets of input data without labelled answers. It is commonly used as a procedure to discover significant structure, explanatory underlying processes, generative qualities, and groups inherent in a set of instances. </p>
+    <h3 class="anchored">What is Clustering</h3>
+    <p>Clustering is the process of separating a population or set of data points into groups so that data points in the same group are more similar to other data points in the same group and different to data points in other groups. It is essentially a collection of items based on their similarity and dissimilarity.</p>
+    <p>Clustering is a form of unsupervised machine learning approach in which comparable data points are grouped together based on particular attributes or qualities. Clustering seeks natural groups or patterns within a dataset without the requirement for labelled output. </p>
+    <h3 class="anchored">Why Clustering</h3>
+    <p>When working with enormous datasets, dividing the data into logical groupings, termed clusters, is an effective approach to analyse them. You could extract value from a big quantity of unstructured data in this manner. It allows you to quickly scan the data for patterns or structures before delving further into the data for particular results.</p>
+    <p>Clustering is critical because it determines the intrinsic grouping of the unlabeled data provided. There are no requirements for good clustering. It is up to the user to determine what criteria will fulfil&nbsp;their&nbsp;needs.</p>
+    <ol>
+        <li>
+            <b>Pattern Recognition:</b>
+            <p>Clustering assists in identifying natural groups or patterns within data that may not be immediately evident. It enables the finding of innate structures&nbsp;and&nbsp;linkages.</p>
+        </li>
+        <li>
+            <b>Data Exploration and Understanding:</b>
+            <p>Data Distribution Insight: Clustering reveals how data points in a collection are distributed and categorised. This is useful for exploratory data analysis and comprehension of the underlying&nbsp;structure.</p>
+        </li>
+        <li><b>Segmentation and Customer Profiling:</b>
+            <p>In business and marketing, clustering is often used to segment customers. It helps to identify groups of customers with similar behavior, preferences or buying habits, which enables targeted marketing strategies.</p>
+        </li>
 
-                <li>
-                    <b> Anomaly Detection:</b>
-                    <p>Outlier Detection: Clustering can be used to identify unusual patterns or outliers in a data set. Data points that do not match the clustering patterns assigned to them can be considered outliers.</p>
-                </li>
-            </ol>
-            <h3 class="anchored">Types of Clustering Methods/ Algorithms</h3>
-
-            <table data-quarto-postprocess="true" data-border="1" data-cellspacing="2" data-cellpadding="2" class="table">
-                <tbody>
-                    <tr class="odd">
-                        <td data-quarto-table-cell-role="th"><strong>Clustering Methods/ Algorithms</strong></td>
-                        <td data-quarto-table-cell-role="th"><strong>Method</strong></td>
-                        <td data-quarto-table-cell-role="th"><strong>Description</strong></td>
-                        <td data-quarto-table-cell-role="th"><strong>Advantages</strong></td>
-                        <td data-quarto-table-cell-role="th"><strong>Disadvantages</strong></td>
-                    </tr>
-                    <tr class="even">
-                        <td>K-Means Clustering</td>
-                        <td>Partitioning</td>
-                        <td>Divides the dataset into a specified number (k) of clusters.</td>
-                        <td>Simple and computationally efficient.</td>
-                        <td>Sensitive to initial cluster centroids.</td>
-                    </tr>
-                    <tr class="odd">
-                        <td>Hierarchical Clustering</td>
-                        <td>Agglomerative (bottom-up) or divisive (top-down)</td>
-                        <td>Builds a tree-like hierarchy of clusters</td>
-                        <td>Provides a hierarchy of clusters, visualized using dendrogram.</td>
-                        <td>Computationally more intensive.</td>
-                    </tr>
-                    <tr class="even">
-                        <td>DBSCAN</td>
-                        <td>Density-based</td>
-                        <td>Forms clusters based on the density of data points</td>
-                        <td>Can discover clusters of arbitrary shapes and handles noise well</td>
-                        <td>Sensitive to parameter settings</td>
-                    </tr>
-                    <tr class="odd">
-                        <td>Mean Shift</td>
-                        <td>Centroid-based</td>
-                        <td>Iteratively shifts centroids towards the mode of the data distribution</td>
-                        <td>Can find irregularly shaped clusters and adapt to varying densities</td>
-                        <td>Computationally expensive</td>
-                    </tr>
-                    <tr class="even">
-                        <td>Gaussian Mixture Model (GMM)</td>
-                        <td>Probabilistic</td>
-                        <td>the data points are generated from a mixture of several Gaussian distributions</td>
-                        <td>Can model complex data distributions and provide probabilistic cluster assignments</td>
-                        <td>Sensitive to the initial parameters.</td>
-                    </tr>
-                    <tr class="odd">
-                        <td>Mean Shift</td>
-                        <td>Centroid-based</td>
-                        <td>Iteratively shifts centroids towards the mode of the data distribution. The resulting clusters are regions of high data density</td>
-                        <td>Can find irregularly shaped clusters and adapt to varying densities</td>
-                        <td>Computationally expensive</td>
-                    </tr>
-                    <tr class="even">
-                        <td>Agglomerative Clustering</td>
-                        <td>Hierarchical, bottom-up</td>
-                        <td>Starts with individual data points as separate clusters and iteratively merges the closest clusters until a stopping criterion is met</td>
-                        <td>Can handle different shapes and sizes of clusters</td>
-                        <td>Computationally more intensive</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="cell" data-execution_count="1">
-                <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+        <li>
+           <b> Anomaly Detection:</b>
+            <p>Outlier Detection: Clustering can be used to identify unusual patterns or outliers in a data set. Data points that do not match the clustering patterns assigned to them can be considered outliers.</p>
+        </li>
+    </ol>
+    <h3 class="anchored">Types of Clustering Methods/ Algorithms</h3>
+    
+<table data-quarto-postprocess="true" data-border="1" data-cellspacing="2" data-cellpadding="2" class="table">
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th"><strong>Clustering Methods/ Algorithms</strong></td>
+<td data-quarto-table-cell-role="th"><strong>Method</strong></td>
+<td data-quarto-table-cell-role="th"><strong>Description</strong></td>
+<td data-quarto-table-cell-role="th"><strong>Advantages</strong></td>
+<td data-quarto-table-cell-role="th"><strong>Disadvantages</strong></td>
+</tr>
+<tr class="even">
+<td>K-Means Clustering</td>
+<td>Partitioning</td>
+<td>Divides the dataset into a specified number (k) of clusters.</td>
+<td>Simple and computationally efficient.</td>
+<td>Sensitive to initial cluster centroids.</td>
+</tr>
+<tr class="odd">
+<td>Hierarchical Clustering</td>
+<td>Agglomerative (bottom-up) or divisive (top-down)</td>
+<td>Builds a tree-like hierarchy of clusters</td>
+<td>Provides a hierarchy of clusters, visualized using dendrogram.</td>
+<td>Computationally more intensive.</td>
+</tr>
+<tr class="even">
+<td>DBSCAN</td>
+<td>Density-based</td>
+<td>Forms clusters based on the density of data points</td>
+<td>Can discover clusters of arbitrary shapes and handles noise well</td>
+<td>Sensitive to parameter settings</td>
+</tr>
+<tr class="odd">
+<td>Mean Shift</td>
+<td>Centroid-based</td>
+<td>Iteratively shifts centroids towards the mode of the data distribution</td>
+<td>Can find irregularly shaped clusters and adapt to varying densities</td>
+<td>Computationally expensive</td>
+</tr>
+<tr class="even">
+<td>Gaussian Mixture Model (GMM)</td>
+<td>Probabilistic</td>
+<td>the data points are generated from a mixture of several Gaussian distributions</td>
+<td>Can model complex data distributions and provide probabilistic cluster assignments</td>
+<td>Sensitive to the initial parameters.</td>
+</tr>
+<tr class="odd">
+<td>Mean Shift</td>
+<td>Centroid-based</td>
+<td>Iteratively shifts centroids towards the mode of the data distribution. The resulting clusters are regions of high data density</td>
+<td>Can find irregularly shaped clusters and adapt to varying densities</td>
+<td>Computationally expensive</td>
+</tr>
+<tr class="even">
+<td>Agglomerative Clustering</td>
+<td>Hierarchical, bottom-up</td>
+<td>Starts with individual data points as separate clusters and iteratively merges the closest clusters until a stopping criterion is met</td>
+<td>Can handle different shapes and sizes of clusters</td>
+<td>Computationally more intensive</td>
+</tr>
+</tbody>
+</table>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-            </div>
-            <div class="cell" data-execution_count="2">
-                <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'IMDB.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-            </div>
-            <div class="cell" data-execution_count="3">
-                <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-                <div class="cell-output cell-output-display" data-execution_count="3">
-                    <div>
+</div>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'IMDB.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
 
 
-                        <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-                            <thead>
-                                <tr class="header">
-                                    <th data-quarto-table-cell-role="th"></th>
-                                    <th data-quarto-table-cell-role="th">Name</th>
-                                    <th data-quarto-table-cell-role="th">Year</th>
-                                    <th data-quarto-table-cell-role="th">Episodes</th>
-                                    <th data-quarto-table-cell-role="th">Type</th>
-                                    <th data-quarto-table-cell-role="th">Rating</th>
-                                    <th data-quarto-table-cell-role="th">Image-src</th>
-                                    <th data-quarto-table-cell-role="th">Description</th>
-                                    <th data-quarto-table-cell-role="th">Name-href</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="odd">
-                                    <td data-quarto-table-cell-role="th">0</td>
-                                    <td>1. Breaking Bad</td>
-                                    <td>2008–2013</td>
-                                    <td>62 eps</td>
-                                    <td>TV-MA</td>
-                                    <td>9.5</td>
-                                    <td>https://m.media-amazon.com/images/M/MV5BYmQ4YW...</td>
-                                    <td>A chemistry teacher diagnosed with inoperable ...</td>
-                                    <td>https://www.imdb.com/title/tt0903747/?ref_=cht...</td>
-                                </tr>
-                                <tr class="even">
-                                    <td data-quarto-table-cell-role="th">1</td>
-                                    <td>2. Planet Earth II</td>
-                                    <td>2016</td>
-                                    <td>6 eps</td>
-                                    <td>TV-G</td>
-                                    <td>9.5</td>
-                                    <td>https://m.media-amazon.com/images/M/MV5BMGZmYm...</td>
-                                    <td>David Attenborough returns with a new wildlife...</td>
-                                    <td>https://www.imdb.com/title/tt5491994/?ref_=cht...</td>
-                                </tr>
-                                <tr class="odd">
-                                    <td data-quarto-table-cell-role="th">2</td>
-                                    <td>3. Planet Earth</td>
-                                    <td>2006</td>
-                                    <td>11 eps</td>
-                                    <td>TV-PG</td>
-                                    <td>9.4</td>
-                                    <td>https://m.media-amazon.com/images/M/MV5BMzMyYj...</td>
-                                    <td>A documentary series on the wildlife found on ...</td>
-                                    <td>https://www.imdb.com/title/tt0795176/?ref_=cht...</td>
-                                </tr>
-                                <tr class="even">
-                                    <td data-quarto-table-cell-role="th">3</td>
-                                    <td>4. Band of Brothers</td>
-                                    <td>2001</td>
-                                    <td>10 eps</td>
-                                    <td>TV-MA</td>
-                                    <td>9.4</td>
-                                    <td>https://m.media-amazon.com/images/M/MV5BMTI3OD...</td>
-                                    <td>The story of Easy Company of the U.S. Army 101...</td>
-                                    <td>https://www.imdb.com/title/tt0185906/?ref_=cht...</td>
-                                </tr>
-                                <tr class="odd">
-                                    <td data-quarto-table-cell-role="th">4</td>
-                                    <td>5. Chernobyl</td>
-                                    <td>2019</td>
-                                    <td>5 eps</td>
-                                    <td>TV-MA</td>
-                                    <td>9.4</td>
-                                    <td>https://m.media-amazon.com/images/M/MV5BNTdkN2...</td>
-                                    <td>In April 1986, an explosion at the Chernobyl n...</td>
-                                    <td>https://www.imdb.com/title/tt7366338/?ref_=cht...</td>
-                                </tr>
-                            </tbody>
-                        </table>
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Name</th>
+<th data-quarto-table-cell-role="th">Year</th>
+<th data-quarto-table-cell-role="th">Episodes</th>
+<th data-quarto-table-cell-role="th">Type</th>
+<th data-quarto-table-cell-role="th">Rating</th>
+<th data-quarto-table-cell-role="th">Image-src</th>
+<th data-quarto-table-cell-role="th">Description</th>
+<th data-quarto-table-cell-role="th">Name-href</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1. Breaking Bad</td>
+<td>2008–2013</td>
+<td>62 eps</td>
+<td>TV-MA</td>
+<td>9.5</td>
+<td>https://m.media-amazon.com/images/M/MV5BYmQ4YW...</td>
+<td>A chemistry teacher diagnosed with inoperable ...</td>
+<td>https://www.imdb.com/title/tt0903747/?ref_=cht...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2. Planet Earth II</td>
+<td>2016</td>
+<td>6 eps</td>
+<td>TV-G</td>
+<td>9.5</td>
+<td>https://m.media-amazon.com/images/M/MV5BMGZmYm...</td>
+<td>David Attenborough returns with a new wildlife...</td>
+<td>https://www.imdb.com/title/tt5491994/?ref_=cht...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>3. Planet Earth</td>
+<td>2006</td>
+<td>11 eps</td>
+<td>TV-PG</td>
+<td>9.4</td>
+<td>https://m.media-amazon.com/images/M/MV5BMzMyYj...</td>
+<td>A documentary series on the wildlife found on ...</td>
+<td>https://www.imdb.com/title/tt0795176/?ref_=cht...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>4. Band of Brothers</td>
+<td>2001</td>
+<td>10 eps</td>
+<td>TV-MA</td>
+<td>9.4</td>
+<td>https://m.media-amazon.com/images/M/MV5BMTI3OD...</td>
+<td>The story of Easy Company of the U.S. Army 101...</td>
+<td>https://www.imdb.com/title/tt0185906/?ref_=cht...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>5. Chernobyl</td>
+<td>2019</td>
+<td>5 eps</td>
+<td>TV-MA</td>
+<td>9.4</td>
+<td>https://m.media-amazon.com/images/M/MV5BNTdkN2...</td>
+<td>In April 1986, an explosion at the Chernobyl n...</td>
+<td>https://www.imdb.com/title/tt7366338/?ref_=cht...</td>
+</tr>
+</tbody>
+</table>
 
-                    </div>
-                </div>
-            </div>
-            <div class="cell" data-execution_count="4">
-                <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-                <div class="cell-output cell-output-display" data-execution_count="4">
-                    <pre><code>Index(['Name', 'Year', 'Episodes', 'Type', 'Rating', 'Image-src',
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>Index(['Name', 'Year', 'Episodes', 'Type', 'Rating', 'Image-src',
        'Description', 'Name-href'],
       dtype='object')</code></pre>
-                </div>
-            </div>
-            <div class="cell" data-execution_count="5">
-                <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Year'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-                <div class="cell-output cell-output-display" data-execution_count="5">
-                    <pre><code>0      2008–2013
+</div>
+</div>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Year'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>0      2008–2013
 1           2016
 2           2006
 3           2001
@@ -470,15 +386,15 @@
 248    2014–2015
 249    2017–2019
 Name: Year, Length: 250, dtype: object</code></pre>
-                </div>
-            </div>
-            <div class="cell" data-execution_count="6">
-                <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df.dropna(inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-            </div>
-            <div class="cell" data-execution_count="7">
-                <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df.isnull().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-                <div class="cell-output cell-output-display" data-execution_count="7">
-                    <pre><code>Name           0
+</div>
+</div>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df.dropna(inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df.isnull().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>Name           0
 Year           0
 Episodes       0
 Type           0
@@ -487,15 +403,15 @@ Image-src      0
 Description    0
 Name-href      0
 dtype: int64</code></pre>
-                </div>
-            </div>
-            <div class="cell" data-execution_count="8">
-                <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+</div>
+</div>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sns.countplot(x<span class="op">=</span><span class="st">'Type'</span>, data<span class="op">=</span>df, palette<span class="op">=</span><span class="st">'viridis'</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Distribution of TV Shows by Genres'</span>)</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-                <div class="cell-output cell-output-stderr">
-                    <pre><code>C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\seaborn\_oldcore.py:1498: FutureWarning:
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\seaborn\_oldcore.py:1498: FutureWarning:
 
 is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
 
@@ -507,21 +423,21 @@ C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\seaborn\
 
 is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
 </code></pre>
-                </div>
-                <div class="cell-output cell-output-display">
-                    <p><img src="index_files/figure-html/cell-9-output-2.png" width="816" height="523"></p>
-                </div>
-            </div>
-            <div class="cell" data-execution_count="9">
-                <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>top_rated_shows <span class="op">=</span> df.sort_values(by<span class="op">=</span><span class="st">'Rating'</span>, ascending<span class="op">=</span><span class="va">False</span>).head(<span class="dv">10</span>)</span>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-9-output-2.png" width="816" height="523"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>top_rated_shows <span class="op">=</span> df.sort_values(by<span class="op">=</span><span class="st">'Rating'</span>, ascending<span class="op">=</span><span class="va">False</span>).head(<span class="dv">10</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>sns.barplot(x<span class="op">=</span><span class="st">'Rating'</span>, y<span class="op">=</span><span class="st">'Name'</span>, data<span class="op">=</span>top_rated_shows, palette<span class="op">=</span><span class="st">'Blues_r'</span>)</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Top-rated TV Shows and Their IMDb Ratings'</span>)</span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'IMDb Rating'</span>)</span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'TV Show Name'</span>)</span>
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-                <div class="cell-output cell-output-stderr">
-                    <pre><code>C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\seaborn\_oldcore.py:1498: FutureWarning:
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\seaborn\_oldcore.py:1498: FutureWarning:
 
 is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
 
@@ -533,20 +449,20 @@ C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\seaborn\
 
 is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
 </code></pre>
-                </div>
-                <div class="cell-output cell-output-display">
-                    <p><img src="index_files/figure-html/cell-10-output-2.png" width="1218" height="523"></p>
-                </div>
-            </div>
-            <div class="cell" data-execution_count="10">
-                <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-10-output-2.png" width="1218" height="523"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>sns.swarmplot(x<span class="op">=</span><span class="st">'Type'</span>, y<span class="op">=</span><span class="st">'Rating'</span>, data<span class="op">=</span>df, palette<span class="op">=</span><span class="st">'dark'</span>, size<span class="op">=</span><span class="dv">8</span>)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'IMDb Ratings Distribution by TV Show Type'</span>)</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'TV Show Type'</span>)</span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'IMDb Rating'</span>)</span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-                <div class="cell-output cell-output-stderr">
-                    <pre><code>C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\seaborn\_oldcore.py:1498: FutureWarning:
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\seaborn\_oldcore.py:1498: FutureWarning:
 
 is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
 
@@ -574,7 +490,7 @@ C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\seaborn\
 
 is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
 
-C:\Users\user\AppData\Local\Temp\ipykernel_17144\3663582833.py:2: FutureWarning:
+C:\Users\user\AppData\Local\Temp\ipykernel_16928\3663582833.py:2: FutureWarning:
 
 Passing `palette` without assigning `hue` is deprecated.
 
@@ -598,17 +514,17 @@ C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\seaborn\
 
 40.3% of the points cannot be placed; you may want to decrease the size of the markers or use stripplot.
 </code></pre>
-                </div>
-                <div class="cell-output cell-output-display">
-                    <p><img src="index_files/figure-html/cell-11-output-2.png" width="961" height="523"></p>
-                </div>
-            </div>
-            <div class="cell" data-execution_count="11">
-                <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>sns.pairplot(df[[<span class="st">'Year'</span>, <span class="st">'Episodes'</span>, <span class="st">'Rating'</span>, <span class="st">'Type'</span>]], hue<span class="op">=</span><span class="st">'Type'</span>, palette<span class="op">=</span><span class="st">'Set1'</span>)</span>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-11-output-2.png" width="961" height="523"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>sns.pairplot(df[[<span class="st">'Year'</span>, <span class="st">'Episodes'</span>, <span class="st">'Rating'</span>, <span class="st">'Type'</span>]], hue<span class="op">=</span><span class="st">'Type'</span>, palette<span class="op">=</span><span class="st">'Set1'</span>)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'Pair Plot of TV Show Data with Type Hue'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-                <div class="cell-output cell-output-stderr">
-                    <pre><code>C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\seaborn\_oldcore.py:1498: FutureWarning:
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\seaborn\_oldcore.py:1498: FutureWarning:
 
 is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
 
@@ -644,13 +560,13 @@ C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\seaborn\
 
 use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
 </code></pre>
-                </div>
-                <div class="cell-output cell-output-display">
-                    <p><img src="index_files/figure-html/cell-12-output-2.png" width="339" height="255"></p>
-                </div>
-            </div>
-            <div class="cell" data-execution_count="12">
-                <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, figsize <span class="op">=</span> (<span class="dv">30</span>,<span class="dv">8</span>))</span>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-12-output-2.png" width="339" height="255"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, figsize <span class="op">=</span> (<span class="dv">30</span>,<span class="dv">8</span>))</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.scatterplot(x<span class="op">=</span><span class="st">'Year'</span>, y<span class="op">=</span><span class="st">'Rating'</span>, data<span class="op">=</span>df, hue<span class="op">=</span><span class="st">'Type'</span>, palette<span class="op">=</span><span class="st">'Set1'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>ax.grid()</span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>fig.autofmt_xdate()</span>
@@ -662,8 +578,8 @@ use_inf_as_na option is deprecated and will be removed in a future version. Conv
 <span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'IMDb Rating'</span>)</span>
 <span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>plt.legend(title<span class="op">=</span><span class="st">'TV Show Type'</span>)</span>
 <span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-                <div class="cell-output cell-output-stderr">
-                    <pre><code>C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\seaborn\_oldcore.py:1498: FutureWarning:
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\seaborn\_oldcore.py:1498: FutureWarning:
 
 is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
 
@@ -687,13 +603,13 @@ C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\seaborn\
 
 is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
 </code></pre>
-                </div>
-                <div class="cell-output cell-output-display">
-                    <p><img src="index_files/figure-html/cell-13-output-2.png" width="2300" height="664"></p>
-                </div>
-            </div>
-            <div class="cell" data-execution_count="13">
-                <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> wordcloud <span class="im">import</span> WordCloud</span>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-13-output-2.png" width="2300" height="664"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> wordcloud <span class="im">import</span> WordCloud</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>top_rated_descriptions <span class="op">=</span> <span class="st">" "</span>.join(df[<span class="st">'Description'</span>])</span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>wordcloud <span class="op">=</span> WordCloud(width<span class="op">=</span><span class="dv">800</span>, height<span class="op">=</span><span class="dv">400</span>, background_color<span class="op">=</span><span class="st">'white'</span>).generate(top_rated_descriptions)</span>
@@ -702,22 +618,22 @@ is_categorical_dtype is deprecated and will be removed in a future version. Use 
 <span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">'off'</span>)</span>
 <span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Word Cloud of Top-rated TV Show Descriptions'</span>)</span>
 <span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-                <div class="cell-output cell-output-display">
-                    <p><img src="index_files/figure-html/cell-14-output-1.png" width="758" height="409"></p>
-                </div>
-            </div>
-            <div class="cell" data-execution_count="14">
-                <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>numerical_features <span class="op">=</span> df[[<span class="st">'Year'</span>, <span class="st">'Episodes'</span>, <span class="st">'Rating'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-            </div>
-            <div class="cell" data-execution_count="15">
-                <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Year'</span>] <span class="op">=</span> df[<span class="st">'Year'</span>].astype(<span class="bu">str</span>)</span>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-14-output-1.png" width="758" height="409"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>numerical_features <span class="op">=</span> df[[<span class="st">'Year'</span>, <span class="st">'Episodes'</span>, <span class="st">'Rating'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Year'</span>] <span class="op">=</span> df[<span class="st">'Year'</span>].astype(<span class="bu">str</span>)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>df.loc[:, <span class="st">'Year'</span>] <span class="op">=</span> df[<span class="st">'Year'</span>].<span class="bu">str</span>.split(<span class="st">'–'</span>).<span class="bu">str</span>[<span class="dv">0</span>].astype(<span class="bu">int</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-            </div>
-            <div class="cell" data-execution_count="16">
-                <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>df.loc[:, <span class="st">'Episodes'</span>] <span class="op">=</span> pd.to_numeric(df[<span class="st">'Episodes'</span>].<span class="bu">str</span>.extract(<span class="st">'(\d+)'</span>)[<span class="dv">0</span>], errors<span class="op">=</span><span class="st">'coerce'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-            </div>
-            <div class="cell" data-execution_count="17">
-                <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
+</div>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>df.loc[:, <span class="st">'Episodes'</span>] <span class="op">=</span> pd.to_numeric(df[<span class="st">'Episodes'</span>].<span class="bu">str</span>.extract(<span class="st">'(\d+)'</span>)[<span class="dv">0</span>], errors<span class="op">=</span><span class="st">'coerce'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>features <span class="op">=</span> df[[<span class="st">'Year'</span>, <span class="st">'Episodes'</span>, <span class="st">'Rating'</span>]]</span>
@@ -733,14 +649,14 @@ is_categorical_dtype is deprecated and will be removed in a future version. Use 
 <span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Episodes'</span>)</span>
 <span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'K-Means Clustering'</span>)</span>
 <span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-                <div class="cell-output cell-output-stderr">
-                    <pre><code>C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\sklearn\cluster\_kmeans.py:1412: FutureWarning:
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\sklearn\cluster\_kmeans.py:1412: FutureWarning:
 
 The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
 </code></pre>
-                </div>
-                <div class="cell-output cell-output-stdout">
-                    <pre><code>                               Name  Cluster
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                               Name  Cluster
 0                   1. Breaking Bad        1
 1                2. Planet Earth II        1
 2                   3. Planet Earth        1
@@ -754,13 +670,13 @@ The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the valu
 244               245. The Night Of        0
 
 [245 rows x 2 columns]</code></pre>
-                </div>
-                <div class="cell-output cell-output-display">
-                    <p><img src="index_files/figure-html/cell-18-output-3.png" width="576" height="449"></p>
-                </div>
-            </div>
-            <div class="cell" data-execution_count="18">
-                <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df[[<span class="st">'Year'</span>, <span class="st">'Episodes'</span>, <span class="st">'Rating'</span>]].dropna()</span>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-18-output-3.png" width="576" height="449"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df[[<span class="st">'Year'</span>, <span class="st">'Episodes'</span>, <span class="st">'Rating'</span>]].dropna()</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>wcss <span class="op">=</span> []</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>):</span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    kmeans <span class="op">=</span> KMeans(n_clusters<span class="op">=</span>i, init<span class="op">=</span><span class="st">'k-means++'</span>, random_state<span class="op">=</span><span class="dv">0</span>)</span>
@@ -772,8 +688,8 @@ The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the valu
 <span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Number of Clusters'</span>)</span>
 <span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'WCSS'</span>)</span>
 <span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-                <div class="cell-output cell-output-stderr">
-                    <pre><code>C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\sklearn\cluster\_kmeans.py:1412: FutureWarning:
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\sklearn\cluster\_kmeans.py:1412: FutureWarning:
 
 The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
 
@@ -813,13 +729,13 @@ C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\sklearn\
 
 The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
 </code></pre>
-                </div>
-                <div class="cell-output cell-output-display">
-                    <p><img src="index_files/figure-html/cell-19-output-2.png" width="589" height="449"></p>
-                </div>
-            </div>
-            <div class="cell" data-execution_count="19">
-                <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>num_clusters <span class="op">=</span> <span class="dv">4</span></span>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-19-output-2.png" width="589" height="449"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>num_clusters <span class="op">=</span> <span class="dv">4</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>clusterer <span class="op">=</span> KMeans(n_clusters<span class="op">=</span>num_clusters, random_state<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>cluster_labels <span class="op">=</span> clusterer.fit_predict(X)</span>
 <span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Cluster Labels:"</span>)</span>
@@ -827,8 +743,8 @@ The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the valu
 <span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Cluster'</span>] <span class="op">=</span> cluster_labels</span>
 <span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Data with Cluster Labels:"</span>)</span>
 <span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[[<span class="st">'Name'</span>, <span class="st">'Year'</span>, <span class="st">'Episodes'</span>, <span class="st">'Rating'</span>, <span class="st">'Cluster'</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-                <div class="cell-output cell-output-stdout">
-                    <pre><code>Cluster Labels:
+<div class="cell-output cell-output-stdout">
+<pre><code>Cluster Labels:
 [0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 0 0 1 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 1
  0 1 0 0 0 0 0 0 0 3 0 0 3 0 0 0 1 1 0 0 1 0 1 1 0 0 0 0 0 0 2 0 0 3 0 0 3
  0 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 2 0 1 0 0 1 0 0 0 0 0 1 0 0 1 0 0 0 1 0
@@ -851,16 +767,16 @@ Data with Cluster Labels:
 244               245. The Night Of  2016        8     8.4        0
 
 [245 rows x 5 columns]</code></pre>
-                </div>
-                <div class="cell-output cell-output-stderr">
-                    <pre><code>C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\sklearn\cluster\_kmeans.py:1412: FutureWarning:
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\sklearn\cluster\_kmeans.py:1412: FutureWarning:
 
 The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
 </code></pre>
-                </div>
-            </div>
-            <div class="cell" data-execution_count="20">
-                <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> silhouette_samples, silhouette_score</span>
+</div>
+</div>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> silhouette_samples, silhouette_score</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.cm <span class="im">as</span> cm</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>range_n_clusters <span class="op">=</span> [<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]</span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n_clusters <span class="kw">in</span> range_n_clusters:</span>
@@ -915,8 +831,8 @@ The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the valu
 <span id="cb33-53"><a href="#cb33-53" aria-hidden="true" tabindex="-1"></a>                 fontsize<span class="op">=</span><span class="dv">14</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
 <span id="cb33-54"><a href="#cb33-54" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-55"><a href="#cb33-55" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-                <div class="cell-output cell-output-stderr">
-                    <pre><code>C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\sklearn\cluster\_kmeans.py:1412: FutureWarning:
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\sklearn\cluster\_kmeans.py:1412: FutureWarning:
 
 The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
 
@@ -936,271 +852,269 @@ C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\sklearn\
 
 The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
 </code></pre>
-                </div>
-                <div class="cell-output cell-output-stdout">
-                    <pre><code>For n_clusters = 2 The average silhouette_score is : 0.7841282051476728
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>For n_clusters = 2 The average silhouette_score is : 0.7841282051476728
 For n_clusters = 3 The average silhouette_score is : 0.7443994662641097
 For n_clusters = 4 The average silhouette_score is : 0.6346534773168201
 For n_clusters = 5 The average silhouette_score is : 0.5596258728689598
 For n_clusters = 6 The average silhouette_score is : 0.5557296368153766</code></pre>
-                </div>
-                <div class="cell-output cell-output-display">
-                    <p><img src="index_files/figure-html/cell-21-output-3.png" width="835" height="477"></p>
-                </div>
-                <div class="cell-output cell-output-display">
-                    <p><img src="index_files/figure-html/cell-21-output-4.png" width="835" height="477"></p>
-                </div>
-                <div class="cell-output cell-output-display">
-                    <p><img src="index_files/figure-html/cell-21-output-5.png" width="835" height="477"></p>
-                </div>
-                <div class="cell-output cell-output-display">
-                    <p><img src="index_files/figure-html/cell-21-output-6.png" width="835" height="477"></p>
-                </div>
-                <div class="cell-output cell-output-display">
-                    <p><img src="index_files/figure-html/cell-21-output-7.png" width="835" height="477"></p>
-                </div>
-            </div>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-21-output-3.png" width="835" height="477"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-21-output-4.png" width="835" height="477"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-21-output-5.png" width="835" height="477"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-21-output-6.png" width="835" height="477"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-21-output-7.png" width="835" height="477"></p>
+</div>
+</div>
 
 
 
-        </main>
-        <!-- /main -->
-        <script id="quarto-html-after-body" type="application/javascript">
-            window.document.addEventListener("DOMContentLoaded", function(event) {
-                const toggleBodyColorMode = (bsSheetEl) => {
-                    const mode = bsSheetEl.getAttribute("data-mode");
-                    const bodyEl = window.document.querySelector("body");
-                    if (mode === "dark") {
-                        bodyEl.classList.add("quarto-dark");
-                        bodyEl.classList.remove("quarto-light");
-                    } else {
-                        bodyEl.classList.add("quarto-light");
-                        bodyEl.classList.remove("quarto-dark");
-                    }
-                }
-                const toggleBodyColorPrimary = () => {
-                    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-                    if (bsSheetEl) {
-                        toggleBodyColorMode(bsSheetEl);
-                    }
-                }
-                toggleBodyColorPrimary();
-                const icon = "";
-                const anchorJS = new window.AnchorJS();
-                anchorJS.options = {
-                    placement: 'right',
-                    icon: icon
-                };
-                anchorJS.add('.anchored');
-                const isCodeAnnotation = (el) => {
-                    for (const clz of el.classList) {
-                        if (clz.startsWith('code-annotation-')) {
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-                const clipboard = new window.ClipboardJS('.code-copy-button', {
-                    text: function(trigger) {
-                        const codeEl = trigger.previousElementSibling.cloneNode(true);
-                        for (const childEl of codeEl.children) {
-                            if (isCodeAnnotation(childEl)) {
-                                childEl.remove();
-                            }
-                        }
-                        return codeEl.innerText;
-                    }
-                });
-                clipboard.on('success', function(e) {
-                    // button target
-                    const button = e.trigger;
-                    // don't keep focus
-                    button.blur();
-                    // flash "checked"
-                    button.classList.add('code-copy-button-checked');
-                    var currentTitle = button.getAttribute("title");
-                    button.setAttribute("title", "Copied!");
-                    let tooltip;
-                    if (window.bootstrap) {
-                        button.setAttribute("data-bs-toggle", "tooltip");
-                        button.setAttribute("data-bs-placement", "left");
-                        button.setAttribute("data-bs-title", "Copied!");
-                        tooltip = new bootstrap.Tooltip(button, {
-                            trigger: "manual",
-                            customClass: "code-copy-button-tooltip",
-                            offset: [0, -8]
-                        });
-                        tooltip.show();
-                    }
-                    setTimeout(function() {
-                        if (tooltip) {
-                            tooltip.hide();
-                            button.removeAttribute("data-bs-title");
-                            button.removeAttribute("data-bs-toggle");
-                            button.removeAttribute("data-bs-placement");
-                        }
-                        button.setAttribute("title", currentTitle);
-                        button.classList.remove('code-copy-button-checked');
-                    }, 1000);
-                    // clear code selection
-                    e.clearSelection();
-                });
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
 
-                function tippyHover(el, contentFn) {
-                    const config = {
-                        allowHTML: true,
-                        content: contentFn,
-                        maxWidth: 500,
-                        delay: 100,
-                        arrow: false,
-                        appendTo: function(el) {
-                            return el.parentElement;
-                        },
-                        interactive: true,
-                        interactiveBorder: 10,
-                        theme: 'quarto',
-                        placement: 'bottom-start'
-                    };
-                    window.tippy(el, config);
-                }
-                const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-                for (var i = 0; i < noterefs.length; i++) {
-                    const ref = noterefs[i];
-                    tippyHover(ref, function() {
-                        // use id or data attribute instead here
-                        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-                        try {
-                            href = new URL(href).hash;
-                        } catch {}
-                        const id = href.replace(/^#\/?/, "");
-                        const note = window.document.getElementById(id);
-                        return note.innerHTML;
-                    });
-                }
-                let selectedAnnoteEl;
-                const selectorForAnnotation = (cell, annotation) => {
-                    let cellAttr = 'data-code-cell="' + cell + '"';
-                    let lineAttr = 'data-code-annotation="' + annotation + '"';
-                    const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-                    return selector;
-                }
-                const selectCodeLines = (annoteEl) => {
-                    const doc = window.document;
-                    const targetCell = annoteEl.getAttribute("data-target-cell");
-                    const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-                    const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-                    const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-                    const lineIds = lines.map((line) => {
-                        return targetCell + "-" + line;
-                    })
-                    let top = null;
-                    let height = null;
-                    let parent = null;
-                    if (lineIds.length > 0) {
-                        //compute the position of the single el (top and bottom and make a div)
-                        const el = window.document.getElementById(lineIds[0]);
-                        top = el.offsetTop;
-                        height = el.offsetHeight;
-                        parent = el.parentElement.parentElement;
-                        if (lineIds.length > 1) {
-                            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-                            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-                            height = bottom - top;
-                        }
-                        if (top !== null && height !== null && parent !== null) {
-                            // cook up a div (if necessary) and position it 
-                            let div = window.document.getElementById("code-annotation-line-highlight");
-                            if (div === null) {
-                                div = window.document.createElement("div");
-                                div.setAttribute("id", "code-annotation-line-highlight");
-                                div.style.position = 'absolute';
-                                parent.appendChild(div);
-                            }
-                            div.style.top = top - 2 + "px";
-                            div.style.height = height + 4 + "px";
-                            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-                            if (gutterDiv === null) {
-                                gutterDiv = window.document.createElement("div");
-                                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-                                gutterDiv.style.position = 'absolute';
-                                const codeCell = window.document.getElementById(targetCell);
-                                const gutter = codeCell.querySelector('.code-annotation-gutter');
-                                gutter.appendChild(gutterDiv);
-                            }
-                            gutterDiv.style.top = top - 2 + "px";
-                            gutterDiv.style.height = height + 4 + "px";
-                        }
-                        selectedAnnoteEl = annoteEl;
-                    }
-                };
-                const unselectCodeLines = () => {
-                    const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-                    elementsIds.forEach((elId) => {
-                        const div = window.document.getElementById(elId);
-                        if (div) {
-                            div.remove();
-                        }
-                    });
-                    selectedAnnoteEl = undefined;
-                };
-                // Attach click handler to the DT
-                const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-                for (const annoteDlNode of annoteDls) {
-                    annoteDlNode.addEventListener('click', (event) => {
-                        const clickedEl = event.target;
-                        if (clickedEl !== selectedAnnoteEl) {
-                            unselectCodeLines();
-                            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-                            if (activeEl) {
-                                activeEl.classList.remove('code-annotation-active');
-                            }
-                            selectCodeLines(clickedEl);
-                            clickedEl.classList.add('code-annotation-active');
-                        } else {
-                            // Unselect the line
-                            unselectCodeLines();
-                            clickedEl.classList.remove('code-annotation-active');
-                        }
-                    });
-                }
-                const findCites = (el) => {
-                    const parentEl = el.parentElement;
-                    if (parentEl) {
-                        const cites = parentEl.dataset.cites;
-                        if (cites) {
-                            return {
-                                el,
-                                cites: cites.split(' ')
-                            };
-                        } else {
-                            return findCites(el.parentElement)
-                        }
-                    } else {
-                        return undefined;
-                    }
-                };
-                var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-                for (var i = 0; i < bibliorefs.length; i++) {
-                    const ref = bibliorefs[i];
-                    const citeInfo = findCites(ref);
-                    if (citeInfo) {
-                        tippyHover(citeInfo.el, function() {
-                            var popup = window.document.createElement('div');
-                            citeInfo.cites.forEach(function(cite) {
-                                var citeDiv = window.document.createElement('div');
-                                citeDiv.classList.add('hanging-indent');
-                                citeDiv.classList.add('csl-entry');
-                                var biblioDiv = window.document.getElementById('ref-' + cite);
-                                if (biblioDiv) {
-                                    citeDiv.innerHTML = biblioDiv.innerHTML;
-                                }
-                                popup.appendChild(citeDiv);
-                            });
-                            return popup.innerHTML;
-                        });
-                    }
-                }
-            });
-        </script>
-    </div>
-    <!-- /content -->
+
+
+</body></html>

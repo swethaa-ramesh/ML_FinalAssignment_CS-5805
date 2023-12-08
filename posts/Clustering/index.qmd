@@ -16,7 +16,7 @@ image: "Image.png"
         <li>Types of Clustering Methods/ Algorithms</li>
     </ul>
     <h3>Introduction</h3>
-    <p>sentially an unsupervised learning strategy. Unsupervised learning is a method that draws references from datasets of input data without labelled answers. It is commonly used as a procedure to discover significant structure, explanatory underlying processes, generative qualities, and groups inherent in a set of instances. </p>
+    <p>It is essentially an unsupervised learning strategy. Unsupervised learning is a method that draws references from datasets of input data without labelled answers. It is commonly used as a procedure to discover significant structure, explanatory underlying processes, generative qualities, and groups inherent in a set of instances. </p>
     <h3>What is Clustering</h3>
     <p>Clustering is the process of separating a population or set of data points into groups so that data points in the same group are more similar to other data points in the same group and different to data points in other groups. It is essentially a collection of items based on their similarity and dissimilarity.</p>
     <p>Clustering is a form of unsupervised machine learning approach in which comparable data points are grouped together based on particular attributes or qualities. Clustering seeks natural groups or patterns within a dataset without the requirement for labelled output. </p>
