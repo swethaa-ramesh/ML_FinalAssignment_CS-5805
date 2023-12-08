@@ -186,8 +186,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li>Finding the best fit line</li>
     </ul>
     <h3 class="anchored">What is Linear Regression</h3>
-    <p>Linear regression is one of the easiest and most popular Machine Learning algorithms. It is a statistical method that is used for predictive analysis. Linear regression makes predictions for continuous/real or numeric variables such as sales, salary,
-        age, product price, etc.</p>
+    <p>One of the simplest and most widely used machine learning algorithms is linear regression. It's a statistical technique for forecasting analysis. For continuous, real, or numerical variables like sales, salary, age, product price, etc., linear regression generates predictions.</p>
     <p>Mathematically, we can represent a linear regression as:</p>
     <b>y= a0+a1x+ ε</b>
     <ul>
@@ -201,7 +200,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h3 class="anchored">Types of Linear Regression</h3>
     <ul>
         <li> <b>Simple Linear Regression</b>
-            <p>If a single independent variable is used to predict the value of a numerical dependent variable, then such a Linear Regression algorithm is called Simple Linear Regression.</p>
+            <p>A linear regression algorithm is referred to as simple linear regression if it uses one independent variable to predict the value of a numerical dependent variable.</p>
             <h4 class="anchored"> <b>Y=β 0+β 1⋅X+ε</b></h4>
             <ul>
                 <li>
@@ -214,7 +213,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             </ul>
         </li>
         <li> <b>Multiple Linear Regression</b>
-            <p>If more than one independent variable is used to predict the value of a numerical dependent variable, then such a Linear Regression algorithm is called Multiple Linear Regression.</p>
+            <p>A type of linear regression algorithm known as multiple linear regression is used to predict the value of a numerical dependent variable by utilizing multiple independent variables.</p>
             <h4 class="anchored"> <b>Y=β 0+β 1⋅X 1 +β 2⋅X 2 +…+β n⋅X n+ε </b></h4>
             <ul>
                 <li>
@@ -228,16 +227,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         </li>
     </ul>
     <h3 class="anchored">Training a Linear Regression Model</h3>
-    <p>The process of training a linear regression model involves finding the values of the coefficients (β0,β 1,…,βn) that minimize the sum of squared differences between the predicted and actual values in the training data.</p>
+    <p>Finding the values of the coefficients (β0,β1,...,βn) that minimize the sum of squared differences between the predicted and actual values in the training data is the first step in training a linear regression model.</p>
     <h3 class="anchored">Finding the best fit line</h3>
-    <p>goal is to find the best fit line that means the error between predicted values and actual values should be minimized. The best fit line will have the least error. The different values for weights or the coefficient of lines (a0, a1) gives a different
-        line of regression, so we need to calculate the best values for a0 and a1 to find the best fit line, so to calculate this we use cost function.</p>
+    <p>The best fit line should be found in order to minimize the error between the predicted and actual values. There will be the least error in the best fit line. We use the cost function to calculate the best values for a0 and a1 in order to find the best fit line because different weights or coefficients of lines (a0, a1) result in different regression lines.</p>
     <h3 class="anchored">Continuous random variable</h3>
     <p>A continuous random variable has two main characteristics:</p>
-    <p>the set of its possible values is uncountable;
-we compute the probability that its value will belong to a given interval by integrating a function called probability density function.</p>
+    <p>Since there is no countable range of possible values, we integrate a function known as the probability density function to find the likelihood that a given value will fall within a given interval.</p>
     <h3 class="anchored">Common continuous distributions</h3>
-    <p>The next table contains some examples of continuous distributions that are frequently encountered in probability theory and statistics.</p>
+    <p>Some examples of continuous distributions that are commonly used in statistics and probability theory can be found in the following table.</p>
     
 <table data-quarto-postprocess="true" class="table">
 <tbody>
@@ -2214,7 +2211,7 @@ Unique values in peakrpm_6000: [0 1]</code></pre>
 <div class="cell" data-execution_count="57">
 <div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>plt.scatter(y_test,y_pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="57">
-<pre><code>&lt;matplotlib.collections.PathCollection at 0x1eb154bed10&gt;</code></pre>
+<pre><code>&lt;matplotlib.collections.PathCollection at 0x276300a7c50&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-58-output-2.png" width="603" height="411"></p>
@@ -2288,7 +2285,7 @@ Name: price, dtype: float64</code></pre>
 <div class="cell" data-execution_count="60">
 <div class="sourceCode cell-code" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>plt.scatter(y_pred,residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="60">
-<pre><code>&lt;matplotlib.collections.PathCollection at 0x1eb13db5510&gt;</code></pre>
+<pre><code>&lt;matplotlib.collections.PathCollection at 0x27635afdcd0&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-61-output-2.png" width="604" height="411"></p>
@@ -2305,14 +2302,11 @@ Name: price, dtype: float64</code></pre>
 </div>
 <h3 class="anchored">3.b)Non-Linear Regression</h3>
     <h3 class="anchored">What is a Non-Linear Regression?</h3>
-    <p>Non-Linear regression is a type of polynomial regression. It is a method to model a non-linear relationship between the dependent and independent variables. It is used in place when the data shows a curvy trend and linear regression would not produce
-        very accurate results when compared to non-linear regression. This is because in linear regression it is pre-assumed that the data is linear. </p>
+    <p>One kind of polynomial regression is non-linear regression. A non-linear relationship between the dependent and independent variables can be modeled using this technique. When the data exhibits a curved trend and non-linear regression yields more accurate results than linear regression, it is used instead of linear regression. This is because the assumption behind linear regression is that the data is linear. </p>
     <h3 class="anchored">How does a Non-Linear Regression work?</h3>
-    <p>observe closely then we will realize that to evolve from linear regression to non-linear regression. We are just supposed to add the higher-order terms of the dependent features in the feature space. This is sometimes also known as feature engineering
-        but not exactly.</p>
+    <p>When we pay close attention, we will see that non-linear regression is the next step up from linear regression. All that needs to be done is add the dependent features' higher-order terms to the feature space. Though not precisely, feature engineering is another name for this at times.</p>
     <h3 class="anchored">Applications of Non-Linear Regression</h3>
-    <p> that most of the real-world data is non-linear and hence non-linear regression techniques are far better than linear regression techniques. Non-Linear regression techniques help to get a robust model whose predictions are reliable and as per the trend
-        followed by the data in history. Tasks related to exponential growth or decay of a population, financial forecasting, and logistic pricing model were all successfully accomplished by the Non-Linear Regression techniques.</p>
+    <p> that non-linear regression techniques are superior to linear regression techniques because most real-world data is non-linear. Non-linear regression methods aid in the creation of a solid model whose forecasts are trustworthy and consistent with the historical trend observed in the data. Non-Linear Regression techniques successfully completed tasks related to logistic pricing model, financial forecasting, and exponential growth or decay of a population.</p>
 <div class="cell" data-execution_count="62">
 <div class="sourceCode cell-code" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> GradientBoostingRegressor</span>
 <span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -3663,7 +3657,7 @@ dtype: int64</code></pre>
 <span id="cb115-4"><a href="#cb115-4" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> model.predict(X_test)</span>
 <span id="cb115-5"><a href="#cb115-5" aria-hidden="true" tabindex="-1"></a>r2_score(y_pred,y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="86">
-<pre><code>0.8775410609127824</code></pre>
+<pre><code>0.8851074423455013</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="87">
@@ -4004,15 +3998,15 @@ dtype: int64</code></pre>
 <span id="cb137-68"><a href="#cb137-68" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"AUC score with XGBoost is: "</span>, roc_auc_score(y_test,ypred_xgb))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[LightGBM] [Info] Number of positive: 2015, number of negative: 9130
-[LightGBM] [Info] Auto-choosing col-wise multi-threading, the overhead of testing was 0.000558 seconds.
+[LightGBM] [Info] Auto-choosing col-wise multi-threading, the overhead of testing was 0.000390 seconds.
 You can set `force_col_wise=true` to remove the overhead.
 [LightGBM] [Info] Total Bins 2921
 [LightGBM] [Info] Number of data points in the train set: 11145, number of used features: 15
 [LightGBM] [Info] [binary:BoostFromScore]: pavg=0.180799 -&gt; initscore=-1.510946
 [LightGBM] [Info] Start training from score -1.510946
 _________________________________________________
-LGBM execution time is:  0:00:00.108216
-XGBoost execution time is:  0:00:00.233882
+LGBM execution time is:  0:00:00.094721
+XGBoost execution time is:  0:00:00.178523
 _________________________________________________
 Accuracy with LGBM =  0.9551489056332975
 Accuracy with XGBoost =  0.9529960531036957
@@ -4265,4 +4259,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><div><i class="bi bi-git"></i></div><div class="action-links"><p><a href="https://swethaa-ramesh.github.io/ML_FinalAssignment_CS-5805/blob/main/posts/Linear and nonlinear regression/index.qmd" class="toc-action">View source</a></p></div></div></div></div></footer></body></html>

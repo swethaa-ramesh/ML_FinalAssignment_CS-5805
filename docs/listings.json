@@ -2,12 +2,12 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/References/index.html",
       "/posts/Outliner/index.html",
       "/posts/Clustering/index.html",
       "/posts/Linear and nonlinear regression/index.html",
       "/posts/Probability theory and random variables/index.html",
-      "/posts/Classification/index.html",
-      "/posts/References/index.html"
+      "/posts/Classification/index.html"
     ]
   }
 ]

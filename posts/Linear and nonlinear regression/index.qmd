@@ -17,8 +17,7 @@ author: Swethaa
         <li>Finding the best fit line</li>
     </ul>
     <h3>What is Linear Regression</h3>
-    <p>Linear regression is one of the easiest and most popular Machine Learning algorithms. It is a statistical method that is used for predictive analysis. Linear regression makes predictions for continuous/real or numeric variables such as sales, salary,
-        age, product price, etc.</p>
+    <p>One of the simplest and most widely used machine learning algorithms is linear regression. It's a statistical technique for forecasting analysis. For continuous, real, or numerical variables like sales, salary, age, product price, etc., linear regression generates predictions.</p>
     <p>Mathematically, we can represent a linear regression as:</p>
     <b>y= a0+a1x+ ε</b>
     <ul>
@@ -32,7 +31,7 @@ author: Swethaa
     <h3>Types of Linear Regression</h3>
     <ul>
         <li> <b>Simple Linear Regression</b>
-            <p>If a single independent variable is used to predict the value of a numerical dependent variable, then such a Linear Regression algorithm is called Simple Linear Regression.</p>
+            <p>A linear regression algorithm is referred to as simple linear regression if it uses one independent variable to predict the value of a numerical dependent variable.</p>
             <h4> <b>Y=β 0+β 1⋅X+ε</b></h4>
             <ul>
                 <li>
@@ -45,7 +44,7 @@ author: Swethaa
             </ul>
         </li>
         <li> <b>Multiple Linear Regression</b>
-            <p>If more than one independent variable is used to predict the value of a numerical dependent variable, then such a Linear Regression algorithm is called Multiple Linear Regression.</p>
+            <p>A type of linear regression algorithm known as multiple linear regression is used to predict the value of a numerical dependent variable by utilizing multiple independent variables.</p>
             <h4> <b>Y=β 0+β 1⋅X 1 +β 2⋅X 2 +…+β n⋅X n+ε </b></h4>
             <ul>
                 <li>
@@ -59,16 +58,14 @@ author: Swethaa
         </li>
     </ul>
     <h3>Training a Linear Regression Model</h3>
-    <p>The process of training a linear regression model involves finding the values of the coefficients (β0,β 1,…,βn) that minimize the sum of squared differences between the predicted and actual values in the training data.</p>
+    <p>Finding the values of the coefficients (β0,β1,...,βn) that minimize the sum of squared differences between the predicted and actual values in the training data is the first step in training a linear regression model.</p>
     <h3>Finding the best fit line</h3>
-    <p>goal is to find the best fit line that means the error between predicted values and actual values should be minimized. The best fit line will have the least error. The different values for weights or the coefficient of lines (a0, a1) gives a different
-        line of regression, so we need to calculate the best values for a0 and a1 to find the best fit line, so to calculate this we use cost function.</p>
+    <p>The best fit line should be found in order to minimize the error between the predicted and actual values. There will be the least error in the best fit line. We use the cost function to calculate the best values for a0 and a1 in order to find the best fit line because different weights or coefficients of lines (a0, a1) result in different regression lines.</p>
     <h3>Continuous random variable</h3>
     <p>A continuous random variable has two main characteristics:</p>
-    <p>the set of its possible values is uncountable;
-we compute the probability that its value will belong to a given interval by integrating a function called probability density function.</p>
+    <p>Since there is no countable range of possible values, we integrate a function known as the probability density function to find the likelihood that a given value will fall within a given interval.</p>
     <h3>Common continuous distributions</h3>
-    <p>The next table contains some examples of continuous distributions that are frequently encountered in probability theory and statistics.</p>
+    <p>Some examples of continuous distributions that are commonly used in statistics and probability theory can be found in the following table.</p>
     <table>
         <tr>
             <th>Name of the continuous distribution</th>
@@ -447,14 +444,11 @@ plt.show()
 ```{=html}
 <h3 >3.b)Non-Linear Regression</h3>
     <h3>What is a Non-Linear Regression?</h3>
-    <p>Non-Linear regression is a type of polynomial regression. It is a method to model a non-linear relationship between the dependent and independent variables. It is used in place when the data shows a curvy trend and linear regression would not produce
-        very accurate results when compared to non-linear regression. This is because in linear regression it is pre-assumed that the data is linear. </p>
+    <p>One kind of polynomial regression is non-linear regression. A non-linear relationship between the dependent and independent variables can be modeled using this technique. When the data exhibits a curved trend and non-linear regression yields more accurate results than linear regression, it is used instead of linear regression. This is because the assumption behind linear regression is that the data is linear. </p>
     <h3>How does a Non-Linear Regression work?</h3>
-    <p>observe closely then we will realize that to evolve from linear regression to non-linear regression. We are just supposed to add the higher-order terms of the dependent features in the feature space. This is sometimes also known as feature engineering
-        but not exactly.</p>
+    <p>When we pay close attention, we will see that non-linear regression is the next step up from linear regression. All that needs to be done is add the dependent features' higher-order terms to the feature space. Though not precisely, feature engineering is another name for this at times.</p>
     <h3>Applications of Non-Linear Regression</h3>
-    <p> that most of the real-world data is non-linear and hence non-linear regression techniques are far better than linear regression techniques. Non-Linear regression techniques help to get a robust model whose predictions are reliable and as per the trend
-        followed by the data in history. Tasks related to exponential growth or decay of a population, financial forecasting, and logistic pricing model were all successfully accomplished by the Non-Linear Regression techniques.</p>
+    <p> that non-linear regression techniques are superior to linear regression techniques because most real-world data is non-linear. Non-linear regression methods aid in the creation of a solid model whose forecasts are trustworthy and consistent with the historical trend observed in the data. Non-Linear Regression techniques successfully completed tasks related to logistic pricing model, financial forecasting, and exponential growth or decay of a population.</p>
 ```
 ```{python}
 from sklearn.ensemble import GradientBoostingRegressor

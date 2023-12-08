@@ -15,14 +15,11 @@ image: "Image.jpg"
 </ul>
 <div class="what">
     <h3>What is Probability Distribution?</h3>
-    <p>In Probability Distribution, A Random Variable’s outcome is uncertain. Here, the outcome’s observation is known as Realization. It is a Function that maps Sample Space into a Real number space, known as State Space. They can be Discrete or Continuous.
-        <b>Probability Distribution is basically the set of all possible outcomes of any random experiment or event.</b> </p>
+    <p>The result of a random variable is unknown in probability distribution. Here, the observation of the result is referred to as realization. It's a function that converts Sample Space into State Space, a real number space. They may be Continuous or Discrete.In essence, a probability distribution is the collection of all potential results from a random experiment or occurrence. </p>
 </div>
 <div class="Random">
     <h3>Random Variables</h3>
-    <p>Random Variable is a real-valued function whose domain is the sample space of the random experiment. It is represented as
-        <b><em>X(sample space) = Real number.</em></b><br> We need to learn the concept of Random Variables because sometimes we are just only interested in the probability of the event but also in the number of events associated with the random experiment.
-        The importance of random variables can be better understood by the following example:</p>
+    <p>The sample space of the random experiment serves as the domain for a random variable, which is a real-valued function. As X(sample space) = Real number, it is expressed. The idea of random variables is important to understand because, occasionally, we are not just interested in the likelihood of an event happening, but also in the total number of events connected to the random experiment.The following example will help you better understand the significance of random variables:</p>
     <h3>Why do we need Random Variables?</h3>
     <p>
         <br> So now we flip our coin 3 times, and we want to answer some questions.
@@ -53,9 +50,8 @@ image: "Image.jpg"
         </li>
     </ul>
     <h4>Discrete Random Variables in Probability Distribution</h4>
-    <p>In probability theory, a discrete random variable is a type of random variable that can take on a finite or countable number of distinct values. These values are often represented by integers or whole numbers, other than this they can also be represented
-        by other discrete values. </p>
-    <p>For example, the number of heads obtained after flipping a coin three times is a discrete random variable. The possible values of this variable are 0, 1, 2, or 3.</p>
+    <p>A discrete random variable is a kind of random variable in probability theory that has a countable or finite set of possible values. In addition to being represented by whole numbers or integers, these values can also be represented by other discrete values. </p>
+    <p>A discrete random variable would be the number of heads that result from tossing a coin three times. This variable can have one of three possible values: 0, 1, 2, or 3.</p>
     <h5> there are various other examples of random discrete variables.</h5>
     <ul>
         <li>The number of cars that pass through a given intersection in an hour.</li>

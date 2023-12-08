@@ -9,32 +9,30 @@ image: "Image.png"
 <h1>Classification</h1>
 <img src="regression-vs-classification-in-machine-learning.png" alt="" height="300px">
     <h3>What is Classification?</h3>
-    <p>Classification is a type of supervised machine learning task where the goal is to predict the categorical class labels of new instances based on past observations. In classification, the algorithm is trained on a labeled dataset, where each example
-        has an associated class label, and the model learns to map input features to specific categories.</p>
-    <p>Classification algorithms used in machine learning utilize input training data for the purpose of predicting the likelihood or probability that the data that follows will fall into one of the predetermined categories. One of the most common applications
-        of classification is for filtering emails into “spam” or “non-spam”, as used by today’s top email service providers</p>
+    <p>Predicting new instances' categorical class labels based on historical observations is the aim of supervised machine learning tasks like classification. In classification, the model learns to map input features to particular categories by being trained on a labeled dataset, where each example has a class label assigned to it.</p>
+    <p>Machine learning classification methods employ input training data to estimate the probability or likelihood that the subsequent data will fit into one of the predefined categories. As utilized by today's leading email service providers, one of the most popular uses of classification is to filter emails into "spam" or "non-spam" categories.</p>
     <h3> Binary Classification vs. Multi-Class Classification:</h3>
     <ul>
         <li><b>Binary Classification</b>
-            <p>In binary classification, there are two possible classes or outcomes (e.g., spam or not spam, positive or negative)</p>
+            <p>There are two possible classes or outcomes in binary classification (e.g., spam or non spam, positive or negative)</p>
         </li>
         <li><b>Multi-Class Classification</b>
-            <p>In multi-class classification, there are more than two classes (e.g., classifying animals into categories like cats, dogs, and birds)</p>
+            <p>More than two classes are involved in multi-class classification (e.g., classifying animals into categories like cats, dogs, and birds).</p>
         </li>
     </ul>
     <h3>Types of Classification Algorithms</h3>
     <ul>
         <li><b>Linear Classifiers</b>
-            <p>Algorithms that create a linear decision boundary, such as Logistic Regression or Linear Support Vector Machines (SVM)</p>
+            <p>algorithms like Logistic Regression and Linear Support Vector Machines (SVM) that produce a linear decision boundary</p>
         </li>
         <li><b>Non-linear Classifiers</b>
-            <p>Algorithms that can capture non-linear relationships, such as Decision Trees, Random Forests, k-Nearest Neighbors (k-NN), and Support Vector Machines with non-linear kernels</p>
+            <p>k-Nearest Neighbors (k-NN), Random Forests, Decision Trees, and Support Vector Machines with non-linear kernels are examples of algorithms that can capture non-linear relationships.</p>
         </li>
         <li><b>Ensemble Methods</b>
-            <p>Techniques that combine multiple base classifiers to improve overall performance, such as AdaBoost, Gradient Boosting, and Random Forests</p>
+            <p>techniques like Random Forests, Gradient Boosting, and AdaBoost that combine several base classifiers to increase overall performance</p>
         </li>
         <li><b>Neural Networks</b>
-            <p>Deep learning models, such as artificial neural networks, are powerful for complex tasks but require a larger amount of data and computational resources</p>
+            <p>Artificial neural networks and other deep learning models are effective for complicated tasks, but they need more data and processing power.</p>
         </li>
     </ul>
     <img src="classification.png" alt="" height="300px">
@@ -44,10 +42,10 @@ image: "Image.png"
             <p>A labeled dataset is required, where each instance is associated with a class label</p>
         </li>
         <li><b>Feature Extraction</b>
-            <p>Features are extracted from the input data. These can be numeric or categorical variables</p>
+            <p>It is necessary to have a labeled dataset where each instance is linked to a class label.</p>
         </li>
         <li><b>Model Training</b></li>
-        <p>The algorithm learns the mapping between features and class labels using the labeled training data</p>
+        <p>Using the labeled training data, the algorithm learns the mapping between features and class labels.</p>
     </ul>
 ```
 

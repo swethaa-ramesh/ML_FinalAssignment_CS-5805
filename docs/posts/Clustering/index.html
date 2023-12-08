@@ -175,7 +175,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-
 <h2 class="anchored">Clustering</h2> 
 <h3 class="anchored">Content</h3>
     <ul>
@@ -185,94 +184,93 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li>Types of Clustering Methods/ Algorithms</li>
     </ul>
     <h3 class="anchored">Introduction</h3>
-    <p>It is basically a type of unsupervised learning method. An unsupervised learning method is a method in which we draw references from datasets consisting of input data without labeled responses. Generally, it is used as a process to find meaningful
-        structure, explanatory underlying processes, generative features, and groupings inherent in a set of examples. </p>
+    <p>sentially an unsupervised learning strategy. Unsupervised learning is a method that draws references from datasets of input data without labelled answers. It is commonly used as a procedure to discover significant structure, explanatory underlying processes, generative qualities, and groups inherent in a set of instances. </p>
     <h3 class="anchored">What is Clustering</h3>
-    <p>Clustering is the task of dividing the population or data points into a number of groups such that data points in the same groups are more similar to other data points in the same group and dissimilar to the data points in other groups. It is basically
-        a collection of objects on the basis of similarity and dissimilarity between them. </p>
-    <p>Clustering is a type of unsupervised machine learning technique where the goal is to group similar data points together based on certain features or characteristics. The objective of clustering is to find natural groupings or patterns within a dataset
-        without the need for labeled output.</p>
+    <p>Clustering is the process of separating a population or set of data points into groups so that data points in the same group are more similar to other data points in the same group and different to data points in other groups. It is essentially a collection of items based on their similarity and dissimilarity.</p>
+    <p>Clustering is a form of unsupervised machine learning approach in which comparable data points are grouped together based on particular attributes or qualities. Clustering seeks natural groups or patterns within a dataset without the requirement for labelled output. </p>
     <h3 class="anchored">Why Clustering</h3>
-    <p>When working with large datasets, an efficient way to analyze them is to first divide the data into logical groupings, aka clusters. This way, you could extract value from a large set of unstructured data. It helps you to glance through the data to
-        pull out some patterns or structures before going deeper into analyzing the data for specific findings</p>
-    <p>Clustering is very much important as it determines the intrinsic grouping among the unlabelled data present. There are no criteria for good clustering. It depends on the user, and what criteria they may use which satisfy their need</p>
+    <p>When working with enormous datasets, dividing the data into logical groupings, termed clusters, is an effective approach to analyse them. You could extract value from a big quantity of unstructured data in this manner. It allows you to quickly scan the data for patterns or structures before delving further into the data for particular results.</p>
+    <p>Clustering is critical because it determines the intrinsic grouping of the unlabeled data provided. There are no requirements for good clustering. It is up to the user to determine what criteria will fulfil&nbsp;their&nbsp;needs.</p>
     <ol>
         <li>
             <b>Pattern Recognition:</b>
-            <p>Clustering helps identify natural groupings or patterns within data that may not be immediately apparent. It allows for the discovery of inherent structures and relationships.</p>
+            <p>Clustering assists in identifying natural groups or patterns within data that may not be immediately evident. It enables the finding of innate structures&nbsp;and&nbsp;linkages.</p>
         </li>
         <li>
             <b>Data Exploration and Understanding:</b>
-            <p>Insight into Data Distribution: Clustering provides insights into how data points are distributed and grouped in a dataset. This is valuable for exploratory data analysis and understanding the underlying structure.</p>
+            <p>Data Distribution Insight: Clustering reveals how data points in a collection are distributed and categorised. This is useful for exploratory data analysis and comprehension of the underlying&nbsp;structure.</p>
         </li>
         <li><b>Segmentation and Customer Profiling:</b>
-            <p>In business and marketing, clustering is often used for customer segmentation. It helps identify groups of customers with similar behavior, preferences, or purchasing patterns, enabling targeted marketing strategies.</p>
+            <p>In business and marketing, clustering is often used to segment customers. It helps to identify groups of customers with similar behavior, preferences or buying habits, which enables targeted marketing strategies.</p>
         </li>
 
         <li>
            <b> Anomaly Detection:</b>
-            <p><b>Identification of Outliers:</b> Clustering can be used to identify unusual patterns or outliers in a dataset. Data points that do not conform to the patterns of their assigned clusters may be considered anomalies.</p>
+            <p>Outlier Detection: Clustering can be used to identify unusual patterns or outliers in a data set. Data points that do not match the clustering patterns assigned to them can be considered outliers.</p>
         </li>
     </ol>
     <h3 class="anchored">Types of Clustering Methods/ Algorithms</h3>
-    <b>
-            </b><table border="1" cellspacing="2" cellpadding="2" style="border: double;text-align: center;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-        <tbody><tr><th>Clustering Methods/ Algorithms</th>
-            <th>Method</th>
-            <th>Description</th>
-            <th>Advantages</th>
-            <th>Disadvantages</th>
-        </tr>
-        <tr>
-            <td>K-Means Clustering</td>
-            <td>Partitioning</td>
-            <td>Divides the dataset into a specified number (k) of clusters. </td>
-            <td>Simple and computationally efficient.</td>
-            <td>Sensitive to initial cluster centroids.</td>
-        </tr>
-        <tr>
-            <td>Hierarchical Clustering</td>
-            <td>Agglomerative (bottom-up) or divisive (top-down)</td>
-            <td>Builds a tree-like hierarchy of clusters</td>
-            <td>Provides a hierarchy of clusters, visualized using dendrogram.</td>
-            <td>Computationally more intensive.</td>
-        </tr>
-        <tr>
-            <td>DBSCAN</td>
-            <td>Density-based</td>
-            <td>Forms clusters based on the density of data points</td>
-            <td>Can discover clusters of arbitrary shapes and handles noise well</td>
-            <td>Sensitive to parameter settings</td>
-        </tr>
-        <tr>
-            <td>Mean Shift</td>
-            <td>Centroid-based</td>
-            <td>Iteratively shifts centroids towards the mode of the data distribution</td>
-            <td>Can find irregularly shaped clusters and adapt to varying densities</td>
-            <td>Computationally expensive</td>
-        </tr>
-        <tr>
-            <td>Gaussian Mixture Model (GMM)</td>
-            <td>Probabilistic</td>
-            <td>the data points are generated from a mixture of several Gaussian distributions</td>
-            <td>Can model complex data distributions and provide probabilistic cluster assignments</td>
-            <td>Sensitive to the initial parameters.</td>
-        </tr>
-        <tr>
-            <td>Mean Shift</td>
-            <td>Centroid-based</td>
-            <td>Iteratively shifts centroids towards the mode of the data distribution. The resulting clusters are regions of high data density</td>
-            <td>Can find irregularly shaped clusters and adapt to varying densities</td>
-            <td>Computationally expensive</td>
-        </tr>
-          <tr>
-            <td>Agglomerative Clustering</td>
-            <td>Hierarchical, bottom-up</td>
-            <td>Starts with individual data points as separate clusters and iteratively merges the closest clusters until a stopping criterion is met</td>
-            <td>Can handle different shapes and sizes of clusters</td>
-            <td>Computationally more intensive</td>
-        </tr>
-    </tbody></table>
+    
+<table data-quarto-postprocess="true" data-border="1" data-cellspacing="2" data-cellpadding="2" class="table">
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th"><strong>Clustering Methods/ Algorithms</strong></td>
+<td data-quarto-table-cell-role="th"><strong>Method</strong></td>
+<td data-quarto-table-cell-role="th"><strong>Description</strong></td>
+<td data-quarto-table-cell-role="th"><strong>Advantages</strong></td>
+<td data-quarto-table-cell-role="th"><strong>Disadvantages</strong></td>
+</tr>
+<tr class="even">
+<td>K-Means Clustering</td>
+<td>Partitioning</td>
+<td>Divides the dataset into a specified number (k) of clusters.</td>
+<td>Simple and computationally efficient.</td>
+<td>Sensitive to initial cluster centroids.</td>
+</tr>
+<tr class="odd">
+<td>Hierarchical Clustering</td>
+<td>Agglomerative (bottom-up) or divisive (top-down)</td>
+<td>Builds a tree-like hierarchy of clusters</td>
+<td>Provides a hierarchy of clusters, visualized using dendrogram.</td>
+<td>Computationally more intensive.</td>
+</tr>
+<tr class="even">
+<td>DBSCAN</td>
+<td>Density-based</td>
+<td>Forms clusters based on the density of data points</td>
+<td>Can discover clusters of arbitrary shapes and handles noise well</td>
+<td>Sensitive to parameter settings</td>
+</tr>
+<tr class="odd">
+<td>Mean Shift</td>
+<td>Centroid-based</td>
+<td>Iteratively shifts centroids towards the mode of the data distribution</td>
+<td>Can find irregularly shaped clusters and adapt to varying densities</td>
+<td>Computationally expensive</td>
+</tr>
+<tr class="even">
+<td>Gaussian Mixture Model (GMM)</td>
+<td>Probabilistic</td>
+<td>the data points are generated from a mixture of several Gaussian distributions</td>
+<td>Can model complex data distributions and provide probabilistic cluster assignments</td>
+<td>Sensitive to the initial parameters.</td>
+</tr>
+<tr class="odd">
+<td>Mean Shift</td>
+<td>Centroid-based</td>
+<td>Iteratively shifts centroids towards the mode of the data distribution. The resulting clusters are regions of high data density</td>
+<td>Can find irregularly shaped clusters and adapt to varying densities</td>
+<td>Computationally expensive</td>
+</tr>
+<tr class="even">
+<td>Agglomerative Clustering</td>
+<td>Hierarchical, bottom-up</td>
+<td>Starts with individual data points as separate clusters and iteratively merges the closest clusters until a stopping criterion is met</td>
+<td>Can handle different shapes and sizes of clusters</td>
+<td>Computationally more intensive</td>
+</tr>
+</tbody>
+</table>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -492,7 +490,7 @@ C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\seaborn\
 
 is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
 
-C:\Users\user\AppData\Local\Temp\ipykernel_5676\3663582833.py:2: FutureWarning:
+C:\Users\user\AppData\Local\Temp\ipykernel_17144\3663582833.py:2: FutureWarning:
 
 Passing `palette` without assigning `hue` is deprecated.
 
@@ -1119,4 +1117,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><div><i class="bi bi-git"></i></div><div class="action-links"><p><a href="https://swethaa-ramesh.github.io/ML_FinalAssignment_CS-5805/blob/main/posts/Clustering/index.qmd" class="toc-action">View source</a></p></div></div></div></div></footer></body></html>

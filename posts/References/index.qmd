@@ -1,12 +1,14 @@
 ---
 title: "References"
-date: "2023-11-05"
+date: "2023-12-07"
 author: Swethaa
 image: "image.jpg"
 ---
 
 ```{=html}
-<h3>1. Taboga, Marco (2021). "Continuous random variable", Lectures on probability theory and mathematical statistics.</h3>
-<h3>2.https://www.geeksforgeeks.org/machine-learning-outlier/</h3>
-<h3>3.https://www.javatpoint.com/linear-regression-in-machine-learning</h3>
+<h3><a style="text-decoration:none; color:black" href="https://www.statlect.com/glossary/absolutely-continuous-random-variable" >1. Taboga, Marco (2021). "Continuous random variable", Lectures on probability theory and mathematical statistics.</a></h3>
+<h3><a style="text-decoration:none; color:black" href="https://www.geeksforgeeks.org/machine-learning-outlier/">2.https://www.geeksforgeeks.org/machine-learning-outlier/</a></h3>
+<h3><a style="text-decoration:none; color:black" href="https://www.javatpoint.com/linear-regression-in-machine-learning">
+    3.https://www.javatpoint.com/linear-regression-in-machine-learning
+</a></h3>
 ```

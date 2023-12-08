@@ -6,48 +6,44 @@ image: "Image.png"
 ---  
 ```{=html}
 <h1 style='cadetblue'>Outlier Detection</h1>
-    <p>An outlier is an object that deviates significantly from the rest of the objects. They can be caused by measurement or execution error. The analysis of outlier data is referred to as outlier analysis or outlier mining.</p>
-    <p>Outlier detection, also known as anomaly detection, is a technique in machine learning that focuses on identifying data points that deviate significantly from the majority of the dataset. Outliers are observations that exhibit unusual behavior compared
-        to the rest of the data and can have a significant impact on the results of statistical analysis and machine learning models.</p>
+    <p>An outlier is a piece of data that deviates dramatically from the rest of the data. They might be the result of a measurement or execution mistake. Outlier analysis or outlier mining is the process of analysing outlier data.</p>
+    <p>Outlier identification, sometimes referred to as anomaly detection, is a machine learning approach that identifies data points that differ considerably from the rest of the sample. Outliers are observations that display anomalous behaviour when compared to the rest of the data and can have a substantial influence on statistical analysis and machine learning models.</p>
     <h3>Detecting Outlier</h3>
-    <p>In the K-Means clustering technique, each cluster has a mean value. Objects belong to the cluster whose mean value is closest to it. In order to identify the Outlier, firstly we need to initialize the threshold value such that any distance of anydata
-        point greater than it from its nearest cluster identifies it as an outlier for our purpose. Then we need to find the distance of the test data to each cluster mean. Now, if the distance between the test data and the closest cluster to it is greater
-        than the threshold value then we will classify the test data as an outlier</p>
+    <p>Each cluster in the K-Means clustering approach has a mean value. Objects belong to the cluster with the highest mean value. To identify the outlier, we must first set the threshold value so that any distance larger than it from the nearest cluster classifies it as an outlier for our purposes. The test data must then be distanced from each cluster mean. If the distance between the test data and the nearest cluster to it is larger than the threshold value, the test data will be classified as an outlier.</p>
     <h3>Approaches for Outlier Detection</h3>
     <h4><b>1.Statistical Methods</b></h4>
     <ul>
-        <li>Z-Score: Measures how many standard deviations a data point is from the mean. Data points with a high absolute Z-score are considered outliers</li>
-        <li>IQR (Interquartile Range): Defines a range based on the quartiles of the data. Data points outside this range are considered outliers</li>
+        <li>Z-Score: Determines how much a data point deviates from the mean. Outliers are data points with a high absolute Z-score.</li>
+        <li>Interquartile Range (IQR): Defines a range based on the data's quartiles. Outliers are data points that fall outside of this range.</li>
     </ul>
     <h4><b>2.Distance Based Methods</b></h4>
     <ul>
-        <li>Euclidean Distance: Measures the straight-line distance between data points. Points that are far from the center or cluster of data may be outliers</li>
-        <li>Mahalanobis Distance: Accounts for correlations between variables and is particularly useful for high-dimensional datasets</li>
+        <li>Euclidean Distance: The straight-line distance between data points is measured. Outliers are data points that are far from the centre or cluster of data.</li>
+        <li>Mahalanobis Length: Accounts for fluctuating correlations and is especially beneficial for high-dimensional datasets.</li>
+        <li>DBSCAN: DBSCAN stands for Density-Based Spatial Clustering of Applications with Noise. Data points are clustered depending on their density. Outliers are points that do not fit into any of the clusters.</li>
 
-        <li>DBSCAN (Density-Based Spatial Clustering of Applications with Noise): Clusters data points based on their density. Outliers are points that do not belong to any cluster</li>
-
-        <li>LOF (Local Outlier Factor): Computes the local density deviation of a data point with respect to its neighbors. Points with low local density compared to neighbors are considered outliers</li>
+        <li>Local Outlier Factor (LOF): Calculates a data point's local density deviance with respect to its neighbours. Outliers are points with low local density in comparison to their neighbours.</li>
     </ul>
     <h4><b>3.Clustering-Based Methods</b></h4>
     <ul>
-        <li>K-Means: Outliers may be points that do not belong to any cluster or belong to a small cluster</li>
-        <li>Hierarchical Clustering: Outliers can be identified by observing small or singleton clusters in the hierarchical structure</li>
+        <li>K-Means:Outliers might be points that do not belong to any cluster or points that belong to a tiny cluster.</li>
+        <li>Hierarchical Clustering:Small or singleton clusters in the hierarchical structure can be used to identify outliers.</li>
     </ul>
     <h4><b>4.Isolation Forest</b></h4>
     <ul>
-        <li>Constructs an ensemble of isolation trees to isolate outliers. Outliers are expected to have shorter paths in the tree structures</li>
+        <li>To separate outliers, creates an ensemble of isolation trees. Outliers should have shorter pathways in the tree architectures.</li>
     </ul>
     <h4><b>5.One-Class SVM (Support Vector Machine)</b></h4>
     <ul>
-        <li>Trains a model on the normal data and identifies outliers as instances lying far from the decision boundary</li>
+        <li>Trains a model on the normal data and detects outliers, which are cases that are far from the decision border.</li>
     </ul>
     <h3>Steps for Outlier Detection</h3>
     <ol>
-        <li>Data Exploration: Understand the distribution and characteristics of the dataset.</li>
-        <li>Feature Engineering:Choose relevant features and transformations that enhance outlier detection.</li>
-        <li>Select Detection Method:Choose an appropriate outlier detection method based on the dataset characteristics and the desired sensitivity to outliers.</li>
-        <li>Set Threshold:Define a threshold beyond which data points are considered outliers. The choice of threshold depends on the specific problem.</li>
-        <li>Evaluate and Validate:Evaluate the performance of the outlier detection method using appropriate metrics. Cross-validation may be used to ensure generalization.</li>
+        <li><b>Data Exploration:</b>Learn about the dataset's distribution and properties.</li>
+        <li><b>Feature Engineering:</b>Select appropriate features and modifications to improve outlier detection.</li>
+        <li><b>Select Detection Method:</b>Choose an appropriate outlier detection approach based on the features of the dataset and the desired sensitivity to outliers.</li>
+        <li><b>Set Threshold:</b>Define a threshold over which data points are deemed outliers. The threshold used is determined on the nature of the problem.</li>
+        <li><b>Evaluate and Validate:</b>Evaluate and Validate: Using relevant metrics, evaluate the performance of the outlier identification approach. Cross-validation can help guarantee generalisation.</li>
     </ol>
 
 ```
